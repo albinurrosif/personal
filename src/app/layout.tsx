@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
-import Footer from './components/Footer';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const geistSans = Geist({
@@ -43,11 +42,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans antialiased bg-background text-foreground">
+    <html lang="en" className="scroll-smooth">
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}>
         {children}
-        <Toaster position="top-right" reverseOrder={false} />
-        <Footer />
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#1e293b',
+              color: '#f1f5f9',
+            },
+          }}
+        />
+        
       </body>
     </html>
   );

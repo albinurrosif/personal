@@ -3,26 +3,17 @@
 @import 'tailwindcss/utilities';
 
 @theme {
-  /* Backgrounds khusus */
-  --color-background-slate: #0f172a; /* slate-900 */
-  --color-background: #0a0a0a; /* slate-800 */
-
-  /* Foreground */
+  --color-background-slate: #0f172a;
+  --color-background: #0a0a0a;
   --color-foreground: #f8fafc;
-
-  /* Warna utama */
   --color-primary: #2563eb;
   --color-primary-light: #3b82f6;
   --color-primary-dark: #1e40af;
 }
 
 @keyframes wave {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-wave {
@@ -31,4 +22,51 @@
 
 body {
   @apply bg-background text-foreground font-sans;
+  margin: 0;
+  padding: 0;
+  /* HAPUS overflow: hidden */
 }
+
+/* 🔥 PERBAIKAN SNAP CONTAINER */
+.snap-container {
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative; /* 🔥 UBAH dari fixed ke relative */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.snap-container::-webkit-scrollbar {
+  display: none;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+
+
+/* Pastikan semua scrollbar hidden */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tambahkan di globals.css */
+.snap-align-none {
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+}
+
