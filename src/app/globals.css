@@ -3,17 +3,21 @@
 @import 'tailwindcss/utilities';
 
 @theme {
-  --color-background-slate: #0f172a;
-  --color-background: #0a0a0a;
-  --color-foreground: #f8fafc;
-  --color-primary: #2563eb;
-  --color-primary-light: #3b82f6;
-  --color-primary-dark: #1e40af;
+  --color-background-slate: #1e293b;
+  --color-background: #0f172a; /* Tetap sama */
+  --color-foreground: #f8fafc; /* Tetap sama */
+  --color-primary: #06b6d4;
+  --color-primary-light: #22d3ee;
+  --color-primary-dark: #0891b2;
 }
 
 @keyframes wave {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-wave {
@@ -52,8 +56,6 @@ body {
   flex-shrink: 0;
 }
 
-
-
 /* Pastikan semua scrollbar hidden */
 * {
   scrollbar-width: none;
@@ -69,4 +71,3 @@ body {
   scroll-snap-align: none !important;
   scroll-snap-stop: normal !important;
 }
-
