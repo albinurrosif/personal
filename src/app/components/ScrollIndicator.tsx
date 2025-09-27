@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function ScrollIndicator() {
   const [activeSection, setActiveSection] = useState('hero');
-  const observerRef = useRef(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   const sections = [
     { id: 'hero', label: 'Home' },
@@ -46,7 +46,7 @@ export default function ScrollIndicator() {
     };
   }, []);
 
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({
@@ -58,17 +58,34 @@ export default function ScrollIndicator() {
 
   return (
     <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
-      {sections.map((section) => (
-        <button
-          key={section.id}
-          onClick={() => scrollToSection(section.id)}
-          className={`flex items-center gap-3 group transition-all duration-300 ${activeSection === section.id ? 'scale-110' : 'scale-100'}`}
-          aria-label={`Scroll to ${section.label}`}
-        >
-          <span className={`w-3 h-3 rounded-full transition-all duration-300 ${activeSection === section.id ? 'bg-primary ring-4 ring-primary/20' : 'bg-gray-600 group-hover:bg-gray-400'}`} />
-          <span className={`text-sm font-medium transition-all duration-300 ${activeSection === section.id ? 'opacity-100 text-primary font-bold' : 'opacity-70 text-gray-400'}`}>{section.label}</span>
-        </button>
-      ))}
+      {sections.map((section) => {
+        const isActive = activeSection === section.id;
+
+        return (
+          <button key={section.id} onClick={() => scrollToSection(section.id)} className={`flex items-center gap-3 group transition-all duration-300 ${isActive ? 'scale-110' : 'scale-100'}`} aria-label={`Scroll to ${section.label}`}>
+            {/* Bullet */}
+            <span
+              className={`w-3 h-3 rounded-full transition-all duration-300`}
+              style={{
+                background: isActive ? 'var(--primary-color)' : 'var(--muted-color)',
+                boxShadow: isActive ? '0 0 0 4px var(--primary-color-alpha)' : 'none',
+              }}
+            />
+
+            {/* Label */}
+            <span
+              className={`text-sm font-medium transition-all duration-300`}
+              style={{
+                color: isActive ? 'var(--primary-color)' : 'var(--muted-color)',
+                opacity: isActive ? 1 : 0.7,
+                fontWeight: isActive ? '700' : '500',
+              }}
+            >
+              {section.label}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }

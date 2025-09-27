@@ -2,13 +2,75 @@
 @import 'tailwindcss/theme';
 @import 'tailwindcss/utilities';
 
-@theme {
-  --color-background-slate: #1e293b;
-  --color-background: #0f172a; /* Tetap sama */
-  --color-foreground: #f8fafc; /* Tetap sama */
-  --color-primary: #06b6d4;
-  --color-primary-light: #22d3ee;
-  --color-primary-dark: #0891b2;
+/* 🎨 Light Mode (default) */
+:root {
+  /* 🌤️ Sky */
+  --sky-top: #91c8ff;
+  --sky-middle: #a1d1ff;
+  --sky-bottom: #b0d3e1;
+
+  /* 🌊 Ocean */
+  --ocean-surface: #60a5fa; /* soft blue */
+  --ocean-middle: #3b82f6; /* blue primary */
+  --ocean-deep: #1d4ed8; /* royal blue */
+
+  /* 📝 Text */
+  --text-color: #111827; /* abu gelap → readable */
+
+  /* ✨ Primary accent */
+  --primary-sky: #ffedd5;
+  --primary-ocean: #fff7ed;
+
+  /* 📦 Content box */
+  --bg-content: rgba(255, 255, 255, 0.85);
+  --wave-color: #60a5fa;
+}
+
+/* 🌙 Dark Mode */
+.dark {
+  --sky-top: #0f172a;
+  --sky-middle: #1e293b;
+  --sky-bottom: #334155;
+
+  --ocean-surface: #111c34;
+  --ocean-middle: #061225;
+  --ocean-deep: #02060e;
+
+  --text-color: #f1f5f9;
+
+  --primary-sky: #06b6d4;
+  --primary-ocean: #06b6d4;
+
+  --bg-content: rgba(15, 23, 42, 0.8);
+  --wave-color: #0f172a;
+}
+
+/* ✨ Bintang berkedip (hanya dark mode) */
+.dark .hero-sky::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(2px 2px at 20px 30px, #eee, transparent), radial-gradient(2px 2px at 40px 70px, #fff, transparent), radial-gradient(1px 1px at 90px 40px, #eee, transparent),
+    radial-gradient(1px 1px at 130px 80px, #fff, transparent), radial-gradient(2px 2px at 160px 30px, #eee, transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  opacity: 0.6;
+  animation: twinkle 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+/* 🌊 Animasi */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes wave {
@@ -19,30 +81,30 @@
     transform: translateX(-50%);
   }
 }
-
 .animate-wave {
   animation: wave 8s linear infinite;
 }
 
+/* 🖼️ Layout dasar */
 body {
-  @apply bg-background text-foreground font-sans;
+  background: var(--sky-top);
+  color: var(--text-color);
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
-  /* HAPUS overflow: hidden */
 }
 
-/* 🔥 PERBAIKAN SNAP CONTAINER */
+/* 🚀 Snap container */
 .snap-container {
   scroll-snap-type: y mandatory;
   height: 100vh;
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  position: relative; /* 🔥 UBAH dari fixed ke relative */
+  position: relative;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-
 .snap-container::-webkit-scrollbar {
   display: none;
 }
@@ -56,7 +118,26 @@ body {
   flex-shrink: 0;
 }
 
-/* Pastikan semua scrollbar hidden */
+/* 🌈 Section gradien nyambung */
+.section-surface {
+  background: linear-gradient(to bottom, var(--sky-bottom), var(--ocean-surface));
+}
+.section-middle {
+  background: linear-gradient(to bottom, var(--ocean-surface), var(--ocean-middle));
+}
+.section-deep {
+  background: linear-gradient(to bottom, var(--ocean-middle), var(--ocean-deep));
+}
+
+/* 📦 Content Box (untuk card / teks agar terbaca) */
+.content-box {
+  background: var(--bg-content);
+
+  padding: 1.5rem;
+  border-radius: 1rem;
+  color: var(--text-color);
+}
+
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -66,8 +147,260 @@ body {
   display: none;
 }
 
-/* Tambahkan di globals.css */
 .snap-align-none {
   scroll-snap-align: none !important;
   scroll-snap-stop: normal !important;
+}
+
+/* Ocean Skills Section Styles */
+
+/* Category Bubble - Background lebih gelap untuk kontras */
+.category-bubble {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
+  backdrop-filter: blur(16px);
+  border: 2px solid var(--primary-ocean);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(34, 211, 238, 0.2);
+}
+
+.category-title {
+  color: var(--primary-ocean);
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+/* Skill Bubble */
+.skill-bubble {
+  background: var(--bg-content);
+  backdrop-filter: blur(12px);
+  border: 2px solid var(--wave-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Title */
+.section-title {
+  color: var(--primary-ocean);
+  text-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+}
+
+/* Dark Mode Adjustments */
+.dark .category-bubble {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 2px solid var(--primary-ocean);
+}
+
+.dark .skill-bubble {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--wave-color);
+}
+
+/* gelembung kecil naik */
+.projects-bubbles::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 120px 120px;
+  animation: bubbleFloat 25s linear infinite;
+  opacity: 0.25;
+}
+
+@keyframes bubbleFloat {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-300px);
+  }
+}
+
+/* beams cahaya tipis dari atas */
+.projects-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 0px, transparent 80px);
+  mix-blend-mode: overlay;
+  opacity: 0.15;
+  animation: lightMove 12s ease-in-out infinite alternate;
+}
+
+@keyframes lightMove {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(40px);
+  }
+}
+
+/* glow plankton */
+.projects-glow::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle, rgba(0, 200, 255, 0.08) 0%, transparent 70%);
+  filter: blur(60px);
+  animation: glowDrift 20s ease-in-out infinite alternate;
+}
+
+@keyframes glowDrift {
+  from {
+    transform: translateX(0) translateY(0);
+  }
+  to {
+    transform: translateX(40px) translateY(-20px);
+  }
+}
+
+/* Projects Section - dari middle ke deep */
+.projects-section {
+  background: linear-gradient(to bottom, var(--ocean-middle) 0%, var(--ocean-deep) 80%, var(--ocean-deep) 100%) !important;
+}
+
+/* Pastikan card readable */
+.projects-section .section-title {
+  color: var(--primary-ocean) !important;
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+}
+
+/* Card styling untuk readability maksimal */
+.projects-section .bg-content {
+  background: var(--bg-content) !important;
+  border: 1px solid var(--wave-color);
+  backdrop-filter: blur(12px);
+}
+
+/* Contact Section Styles */
+.contact-section {
+  background: linear-gradient(to bottom, var(--ocean-deep), #010813) !important;
+  margin-top: -1px; /* Menutup gap */
+}
+
+/* Contact Section - melanjutkan deep */
+.contact-section {
+  background: linear-gradient(to bottom, var(--ocean-deep) 0%, var(--ocean-deep) 20%, #010813 100%) !important;
+}
+
+.deep-sea-glow {
+  background: linear-gradient(to bottom, rgba(59, 130, 246, 0.05), transparent, rgba(128, 90, 213, 0.1));
+}
+
+.deep-sea-rays {
+  background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.03), transparent);
+  transform: rotate(6deg);
+}
+
+/* Contact Title dengan glow yang dikurangi */
+.contact-title {
+  color: var(--primary-ocean) !important;
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.4), /* Dikurangi dari 20px */ 0 0 20px rgba(59, 130, 246, 0.2) /* Dikurangi dari 40px */ !important;
+}
+
+/* Contact Form Styles */
+.contact-form {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); /* Safari support */
+  border: 2px solid #bfdbfe !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 30px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+.form-input {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-color: #93c5fd !important;
+  color: #1f2937 !important;
+  font-weight: 500;
+}
+
+.form-input::placeholder {
+  color: #6b7280 !important;
+  opacity: 0.8 !important;
+}
+
+.form-input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2) !important;
+  background: rgba(255, 255, 255, 1) !important;
+  transform: translateY(-1px);
+}
+
+.form-input:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed;
+  background: rgba(249, 250, 251, 0.98) !important;
+}
+
+/* Dark Mode Version */
+.dark .form-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  color: #f1f5f9 !important;
+  font-weight: 500;
+}
+
+.dark .form-input::placeholder {
+  color: #94a3b8 !important;
+  opacity: 0.7 !important;
+}
+
+.dark .form-input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  transform: translateY(-1px);
+}
+
+.dark .form-input:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Dark mode untuk contact form container */
+.dark .contact-form {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(59, 130, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: white !important;
+  border: 2px solid #2563eb !important;
+  font-weight: 600;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4), 0 0 25px rgba(37, 99, 235, 0.3) !important;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  background: #9ca3af !important;
+  border-color: #9ca3af !important;
+}
+
+.ocean-floor {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+}
+
+/* Scrollbar fixes */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safari support untuk semua backdrop-filter */
+.category-bubble,
+.skill-bubble,
+.contact-form {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 }
