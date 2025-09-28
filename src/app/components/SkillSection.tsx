@@ -172,7 +172,7 @@ export default function SkillSection() {
         variants={staggerContainer} 
         initial="hidden" 
         whileInView="visible" 
-        viewport={{ once: true, margin: '-50px' }}
+        viewport={{ once: false, margin: '-50px' }}
       >
         {skillCategories.map((category) => (
           <motion.div key={category.category} className="flex flex-col items-center" variants={itemAnimation}>

@@ -2,10 +2,25 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, ReactNode } from 'react';
 import { useInView } from 'framer-motion';
 
-const projects = [
+interface Project {
+  title?: string;
+  description?: string;
+  fullDescription?: string;
+  image: string;
+  link: string;
+  tech?: string[];
+  isComingSoon?: boolean;
+}
+
+interface ProjectCardProps {
+  project: Project;
+  index: number;
+}
+
+const projects: Project[] = [
   {
     title: 'Inventaris Barang SMKN 1 Sumenep',
     description: 'An inventory management system for schools with QR code tracking.',
@@ -16,35 +31,20 @@ const projects = [
     tech: ['Laravel', 'Bootstrap', 'MySQL'],
   },
   {
-    image: '/project/3.jpg',
+    image: '/project/2.jpg',
     link: '#',
     isComingSoon: true,
   },
 ];
 
-type Project = {
-  title?: string;
-  description?: string;
-  fullDescription?: string;
-  image: string;
-  link: string;
-  tech?: string[];
-  isComingSoon?: boolean;
-};
-
-interface ProjectCardProps {
-  project: Project;
-  index: number;
-}
-
 function ProjectCard({ project, index }: ProjectCardProps) {
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const cardRef = useRef(null);
-  const isInView = useInView(cardRef, { once: true, margin: '-50px' });
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: false, margin: '-50px' });
 
   const toggleDescription = () => setShowFullDescription(!showFullDescription);
 
-  const formatDescription = (text: string) =>
+  const formatDescription = (text: string): ReactNode[] =>
     text.split('\n').map((line, idx) => (
       <span key={idx}>
         {line}
@@ -65,7 +65,6 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
       transition={{
         duration: 0.6,
-        delay: index * 0.2,
         ease: 'easeOut',
       }}
       whileHover={{
@@ -85,7 +84,13 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         className="w-full h-full flex flex-col"
       >
         {/* Image Section */}
-        <a href={project.isComingSoon ? '#' : project.link} target={project.isComingSoon ? '_self' : '_blank'} rel="noopener noreferrer" className={`block ${project.isComingSoon ? 'pointer-events-none cursor-default' : ''}`}>
+        <a
+          href={project.isComingSoon ? '#' : project.link}
+          target={project.isComingSoon ? '_self' : '_blank'}
+          rel="noopener noreferrer"
+          className={`block ${project.isComingSoon ? 'pointer-events-none cursor-default' : ''}`}
+          aria-label={project.isComingSoon ? 'Coming soon project' : `View ${project.title} project`}
+        >
           <div className="relative h-48 w-full flex-shrink-0 overflow-hidden">
             <Image
               src={project.image}
@@ -138,15 +143,29 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           )}
 
-          {/*coming soon*/}
+          {/* Coming soon */}
           {project.isComingSoon && (
             <div className="flex flex-col flex-grow justify-center items-center space-y-8 py-6">
               {/* Badge compact */}
-              <div className="bg-[var(--primary-ocean)] text-[var(--text-color)] px-6 py-3 rounded-full font-bold text-lg shadow-lg">COMING SOON</div>
+              <div
+                className="px-6 py-3 rounded-full font-bold text-lg shadow-lg"
+                style={{
+                  backgroundColor: 'var(--primary-ocean)',
+                  color: 'var(--text-color)',
+                }}
+              >
+                COMING SOON
+              </div>
 
               {/* Simple status */}
               <div className="text-center">
-                <div className="w-20 h-0.5 bg-[var(--primary-ocean)]/40 rounded-full mx-auto mb-2"></div>
+                <div
+                  className="w-20 h-0.5 rounded-full mx-auto mb-2"
+                  style={{
+                    backgroundColor: 'var(--primary-ocean)',
+                    opacity: 0.4,
+                  }}
+                ></div>
                 <div className="text-xs opacity-60">In Progress</div>
               </div>
             </div>
@@ -158,15 +177,15 @@ function ProjectCard({ project, index }: ProjectCardProps) {
 }
 
 export default function Projects() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: false, margin: '-100px' });
 
-  const getContainerClass = () => {
+  const getContainerClass = (): string => {
     if (projects.length === 1) return 'flex justify-center';
     return 'flex flex-wrap justify-center';
   };
 
-  const getCardWidthClass = () => {
+  const getCardWidthClass = (): string => {
     if (projects.length === 1) return 'w-full max-w-md';
     if (projects.length === 2) return 'w-full md:w-[calc(50%-24px)] max-w-md';
     return 'w-full md:w-[calc(50%-24px)] lg:w-[calc(33.333%-24px)] max-w-md';
@@ -175,12 +194,7 @@ export default function Projects() {
   return (
     <section ref={ref} id="projects" className="relative min-h-screen py-20 flex flex-col justify-center items-center overflow-hidden projects-section">
       {/* Background gradient */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          background: 'linear-gradient(to bottom, var(--ocean-middle), var(--ocean-deep))',
-        }}
-      />
+      <div className="absolute inset-0 z-0" />
 
       {/* Efek laut dalam subtle */}
       <div className="absolute inset-0 z-0 opacity-20">

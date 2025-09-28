@@ -11,7 +11,7 @@ export default function ContactForm() {
   const form = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const isInView = useInView(sectionRef, { once: false, margin: '-100px' });
 
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +50,7 @@ export default function ContactForm() {
   return (
     <section ref={sectionRef} id="contact" className="relative min-h-screen flex flex-col justify-center items-center px-6 py-20 overflow-hidden contact-section">
       {/* Deep Ocean Background */}
-      <div className="absolute inset-0 z-0 ocean-deep-bg" />
+      <div className="absolute inset-0 z-0 " />
 
       {/* Deep Ocean Effects */}
       <div className="absolute inset-0 z-0">
@@ -78,12 +78,6 @@ export default function ContactForm() {
             }}
           />
         ))}
-
-        {/* Deep sea glow */}
-        <div className="absolute inset-0 deep-sea-glow" />
-
-        {/* Deep sea light rays */}
-        <div className="absolute inset-0 deep-sea-rays" />
       </div>
 
       {/* Title dengan glow yang dikurangi */}
@@ -99,7 +93,7 @@ export default function ContactForm() {
           className="w-full space-y-6 p-8 rounded-2xl shadow-2xl contact-form"
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
         >
           {/* Form Fields */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.6, delay: 0.4 }}>
@@ -136,8 +130,7 @@ export default function ContactForm() {
         </motion.form>
       </motion.div>
 
-      {/* Ocean Floor */}
-      <div className="absolute bottom-0 left-0 w-full h-32 ocean-floor"></div>
+      
     </section>
   );
 }

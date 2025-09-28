@@ -30,7 +30,7 @@ export default function About() {
         transition={{ duration: 1 }}
       >
         <p className="text-lg sm:text-xl leading-relaxed">
-          Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Bee</span>. I’m currently learning <span className="font-medium text-[var(--primary-ocean-light)]">React, Next.js, and Tailwind CSS</span>. My goal is to become
+          Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Bee</span>. I’m currently learning <span className="font-medium text-[var(--primary-ocean)]">React, Next.js, and Tailwind CSS</span>. My goal is to become
           confident in building modern web applications and share my journey along the way.
         </p>
       </motion.div>
