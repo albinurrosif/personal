@@ -23,6 +23,7 @@ export default function Home() {
 
       {/* Snap Sections */}
       <main className="snap-container">
+        
         <Suspense fallback={<PageLoader sectionName="hero" />}>
           <section id="hero" className="snap-section">
             <Hero />
