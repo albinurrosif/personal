@@ -87,7 +87,7 @@ type Skill = {
 // Skill Bubble Component
 const SkillBubble = ({ skill, index }: { skill: Skill; index: number }) => {
   const IconComponent = skill.icon;
-  
+
   return (
     <motion.div
       className="flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl group cursor-pointer relative overflow-hidden skill-bubble"
@@ -113,7 +113,7 @@ const SkillBubble = ({ skill, index }: { skill: Skill; index: number }) => {
 
 // Category Bubble dengan background yang kontras
 const CategoryBubble = ({ category }: { category: string }) => (
-  <motion.div className="w-full max-w-xs p-4 rounded-2xl mb-6 mx-auto category-bubble" whileHover={{ y: -5, scale: 1.02 }} variants={floatingAnimation} animate="floating" >
+  <motion.div className="w-full max-w-xs p-4 rounded-2xl mb-6 mx-auto category-bubble" whileHover={{ y: -5, scale: 1.02 }} variants={floatingAnimation} animate="floating">
     <h3 className="text-lg sm:text-xl font-bold text-center category-title">{category}</h3>
   </motion.div>
 );
@@ -130,50 +130,40 @@ export default function SkillSection() {
     >
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(15)].map((_, i) => (
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full bg-white/20"
             style={{
-              width: Math.random() * 25 + 10,
-              height: Math.random() * 25 + 10,
+              width: Math.random() * 15 + 5,
+              height: Math.random() * 15 + 5,
               left: `${Math.random() * 100}%`,
-              bottom: '-5%',
+              top: '100%',
             }}
             animate={{
-              y: [-100, window.innerHeight + 100],
-              x: [0, Math.random() * 100 - 50],
-              opacity: [0, 0.8, 0],
+              y: [0, -Math.random() * 600 - 200],
+              x: [0, Math.random() * 60 - 30],
+              opacity: [0, 0.9, 0],
+              scale: [0.8, 1, 0.8],
             }}
             transition={{
-              duration: Math.random() * 12 + 8,
+              duration: Math.random() * 15 + 10,
               repeat: Infinity,
-              delay: Math.random() * 3,
-              ease: 'linear',
+              delay: Math.random() * 5,
+              times: [0, 0.6, 1],
+              ease: [0.4, 0, 0.2, 1],
             }}
           />
         ))}
-
       </div>
 
       {/* Title */}
-      <motion.h2 
-        className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center z-10 px-4 section-title" 
-        initial={{ opacity: 0, y: -30 }} 
-        whileInView={{ opacity: 1, y: 0 }} 
-        transition={{ duration: 0.8 }}
-      >
+      <motion.h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center z-10 px-4 section-title" initial={{ opacity: 0, y: -30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
         Skills & Technologies
       </motion.h2>
 
       {/* Skills Grid */}
-      <motion.div 
-        className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 max-w-6xl w-full z-10 px-4" 
-        variants={staggerContainer} 
-        initial="hidden" 
-        whileInView="visible" 
-        viewport={{ once: false, margin: '-50px' }}
-      >
+      <motion.div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 max-w-6xl w-full z-10 px-4" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: false, margin: '-50px' }}>
         {skillCategories.map((category) => (
           <motion.div key={category.category} className="flex flex-col items-center" variants={itemAnimation}>
             <CategoryBubble category={category.category} />

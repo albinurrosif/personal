@@ -11,6 +11,36 @@ export default function About() {
         color: 'var(--text-color)',
       }}
     >
+
+      {/* Background Elements */}
+            <div className="absolute inset-0 overflow-hidden">
+              {[...Array(15)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute rounded-full bg-white/20"
+                  style={{
+                    width: Math.random() * 12 + 3,
+                    height: Math.random() * 12 + 3,
+                    left: `${Math.random() * 100}%`,
+                    top: '100%',
+                  }}
+                  animate={{
+                    y: [0, -Math.random() * 600 - 200],
+                    x: [0, Math.random() * 60 - 30],
+                    opacity: [0, 0.9, 0],
+                    scale: [0.8, 1, 0.8],
+                  }}
+                  transition={{
+                    duration: Math.random() * 15 + 10,
+                    repeat: Infinity,
+                    delay: Math.random() * 5,
+                    times: [0, 0.6, 1],
+                    ease: [0.4, 0, 0.2, 1],
+                  }}
+                />
+              ))}
+            </div>
+
       {/* Title */}
       <motion.h2 className="text-3xl sm:text-5xl font-bold mb-6 relative z-10 section-title" style={{ color: 'var(--primary-ocean)' }} initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
         About Me
