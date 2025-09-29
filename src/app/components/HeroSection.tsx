@@ -6,15 +6,15 @@ import { Typewriter } from 'react-simple-typewriter';
 export default function Home() {
   const [text, setText] = useState('Bee');
 
-const smoothScroll = (targetId: string) => {
-  const targetElement = document.getElementById(targetId);
-  if (targetElement) {
-    targetElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-  }
-};
+  const smoothScroll = (targetId: string) => {
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
 
   useEffect(() => {
     const words = ['Bee', 'Albi'];
@@ -53,16 +53,12 @@ const smoothScroll = (targetId: string) => {
       }}
     >
       {/* Heading */}
-      <motion.h1 className="text-4xl sm:text-6xl font-bold mb-4 relative z-10" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-        <span className="whitespace-nowrap">Hi, I&apos;m </span>
-        <span className="inline-block relative w-[100px] h-[1.2em] align-middle">
-          {' '}
-          {/* Container dengan fixed height */}
-          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full font-mono text-center" style={{ color: 'var(--primary-sky)' }}>
-            {text}
-          </span>
+      <h1 className="text-3xl sm:text-5xl font-bold mb-4 flex items-center gap-x-2">
+        <span>Hi, I&apos;m</span>
+        <span className="inline-block relative w-[4ch] text-center">
+          <span className="text-[var(--primary-sky)] font-mono">{text}</span>
         </span>
-      </motion.h1>
+      </h1>
 
       {/* Subheading */}
       <p className="text-lg sm:text-xl max-w-xl mb-6 relative z-10 opacity-90">
@@ -83,13 +79,20 @@ const smoothScroll = (targetId: string) => {
       </motion.div>
 
       {/* 🌊 Wave separator */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-10">
-        <div className="relative w-[200%] h-32 animate-wave flex">
-          <svg className="w-1/2 h-full rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44C212.18,79.74,106.61,95.34,0,96V0H1200V96c-110.61-.66-221.22-2.12-331.83-5.13C757.42,87,642.31,73.15,527.2,59.45,458.1,51.54,389,43.64,321.39,56.44Z" fill="var(--ocean-surface)" />
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-10 -mb-1 " style={{ transform: 'scale(1.2)' }}>
+        {/* Tinggi responsive, pattern SAMA */}
+        <div className="relative w-[200%] animate-wave flex h-36 sm:h-40 md:h-56 lg:h-80  ">
+          <svg className="w-1/2 h-full " viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path
+              d="M0,128L80,117.3C160,107,320,85,480,101.3C640,117,800,171,960,181.3C1120,192,1280,160,1360,144L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+              fill="var(--ocean-surface)"
+            />
           </svg>
-          <svg className="w-1/2 h-full rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44C212.18,79.74,106.61,95.34,0,96V0H1200V96c-110.61-.66-221.22-2.12-331.83-5.13C757.42,87,642.31,73.15,527.2,59.45,458.1,51.54,389,43.64,321.39,56.44Z" fill="var(--ocean-surface)" />
+          <svg className="w-1/2 h-full " viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path
+              d="M0,128L80,117.3C160,107,320,85,480,101.3C640,117,800,171,960,181.3C1120,192,1280,160,1360,144L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+              fill="var(--ocean-surface)"
+            />
           </svg>
         </div>
       </div>

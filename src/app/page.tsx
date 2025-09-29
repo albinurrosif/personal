@@ -14,7 +14,9 @@ export default function Home() {
   return (
     <div className="relative">
       {/* Scroll Indicator di sisi kanan */}
-      <ScrollIndicator />
+      <div className="hidden lg:block">
+        <ScrollIndicator />
+      </div>
 
       {/* Floating Footer di bawah */}
       <Suspense fallback={null}>
@@ -23,7 +25,6 @@ export default function Home() {
 
       {/* Snap Sections */}
       <main className="snap-container">
-        
         <Suspense fallback={<PageLoader sectionName="hero" />}>
           <section id="hero" className="snap-section">
             <Hero />
