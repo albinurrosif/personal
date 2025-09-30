@@ -6,7 +6,7 @@ export default function Footer() {
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-40">
-      <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row md:justify-start lg:justify-between items-center gap-2">
+      <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row md:justify-start 2xl:justify-between items-center gap-2">
         {/* Copyright */}
         <div className="text-xs sm:text-sm footer-text">© {currentYear} Albinur.</div>
 

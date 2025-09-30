@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="relative">
       {/* Scroll Indicator di sisi kanan */}
-      <div className="hidden lg:block">
+      <div className="hidden 2xl:block">
         <ScrollIndicator />
       </div>
 

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { FaHtml5, FaCss3, FaReact, FaNodeJs, FaGitAlt, FaLaravel, FaFigma } from 'react-icons/fa';
 import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript } from 'react-icons/si';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
 // Data skills
 const skillCategories = [
@@ -39,135 +39,184 @@ const skillCategories = [
 // Animations
 const floatingAnimation = {
   floating: {
-    y: [-10, 10, -10],
-    rotate: [-2, 2, -2],
+    y: [-1.5, 1.5, -1.5],
+    rotate: [-1, 1, -1],
     transition: {
       y: {
-        duration: 4,
+        duration: 3,
         repeat: Infinity,
         ease: 'easeInOut' as const,
       },
       rotate: {
-        duration: 6,
+        duration: 4,
         repeat: Infinity,
         ease: 'easeInOut' as const,
       },
-    },
-  },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemAnimation = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: 'easeOut' as const,
     },
   },
 };
 
 type Skill = {
   name: string;
-  icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement> & { size?: number }>;
   color: string;
 };
 
-// Skill Bubble Component
+// Skill Bubble Component - LARGER FOR CAROUSEL
 const SkillBubble = ({ skill, index }: { skill: Skill; index: number }) => {
   const IconComponent = skill.icon;
 
   return (
     <motion.div
-      className="flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl group cursor-pointer relative overflow-hidden skill-bubble"
+      className="flex flex-col items-center justify-center rounded-2xl group cursor-pointer relative overflow-hidden skill-bubble
+                 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32
+                 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6"
+      style={{ aspectRatio: '1 / 1' }}
       variants={floatingAnimation}
       animate="floating"
       whileHover={{
         y: -8,
-        scale: 1.05,
-        transition: { type: 'spring', stiffness: 300 },
+        scale: 1.1,
+        transition: { type: 'spring', stiffness: 400, damping: 10 },
       }}
       custom={index}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl" />
-      <motion.div className="mb-2 sm:mb-3 transition-transform duration-300 z-10" whileHover={{ scale: 1.2, rotate: 5 }}>
-        <IconComponent size={32} style={{ color: skill.color }} />
+      <motion.div className="mb-1 sm:mb-1.5 md:mb-2 transition-transform duration-300 z-10 flex items-center justify-center" whileHover={{ scale: 1.3, rotate: 5 }}>
+        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-10 xl:h-10" style={{ color: skill.color }} />
       </motion.div>
-      <span className={`text-xs sm:text-sm font-semibold text-center z-10`} style={{ color: 'var(--text-color)' }}>
+      <span
+        className="font-semibold text-center leading-tight 
+                   text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg"
+        style={{ color: 'var(--text-color)' }}
+      >
         {skill.name}
       </span>
     </motion.div>
   );
 };
 
-// Category Bubble dengan background yang kontras
+// Category Bubble
 const CategoryBubble = ({ category }: { category: string }) => (
-  <motion.div className="w-full max-w-xs p-4 rounded-2xl mb-6 mx-auto category-bubble" whileHover={{ y: -5, scale: 1.02 }} variants={floatingAnimation} animate="floating">
-    <h3 className="text-lg sm:text-xl font-bold text-center category-title">{category}</h3>
+  <motion.div
+    className="px-4 sm:px-5 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-3 rounded-2xl mb-4 sm:mb-5 md:mb-6 lg:mb-8 mx-auto category-bubble 
+               max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px]"
+    whileHover={{ y: -4, scale: 1.05 }}
+    variants={floatingAnimation}
+    animate="floating"
+  >
+    <h3 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-center whitespace-nowrap category-title">{category}</h3>
   </motion.div>
 );
 
+const CategorySlide = ({ category, skills }: { category: string; skills: Skill[] }) => {
+  // Mapping jumlah skill ke class grid
+  const gridColsMap: { [key: number]: string } = {
+    1: 'grid-cols-1',
+    2: 'grid-cols-2',
+    3: 'grid-cols-3',
+    4: 'grid-cols-2', // atau 'grid-cols-2 sm:grid-cols-4' untuk responsive
+    5: 'grid-cols-3', // atau 'grid-cols-3'
+    6: 'grid-cols-3',
+    // default untuk lebih dari 6
+  };
+
+  const gridColsClass = gridColsMap[skills.length] || 'grid-cols-3';
+
+  return (
+    <div className="flex-shrink-0 w-full h-full flex flex-col items-center justify-center px-4">
+      <CategoryBubble category={category} />
+      <div className={`grid ${gridColsClass} gap-4 sm:gap-5 md:gap-6 max-w-sm justify-items-center`}>
+        {skills.map((skill, skillIndex) => (
+          <SkillBubble key={skill.name} skill={skill} index={skillIndex} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function SkillSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % skillCategories.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + skillCategories.length) % skillCategories.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
   return (
     <section
       id="skills"
-      className={`min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 py-16 sm:py-20 relative overflow-hidden`}
+      className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-6 sm:pb-8 md:pb-12 lg:pb-16 relative overflow-hidden"
       style={{
         background: `var(--ocean-middle)`,
         color: 'var(--text-color)',
       }}
     >
-      {/* Background Elements */}
+      {/* Background Elements - OPTIMIZED */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-white/20"
-            style={{
-              width: Math.random() * 15 + 5,
-              height: Math.random() * 15 + 5,
-              left: `${Math.random() * 100}%`,
-              top: '100%',
-            }}
-            animate={{
-              y: [0, -Math.random() * 600 - 200],
-              x: [0, Math.random() * 60 - 30],
-              opacity: [0, 0.9, 0],
-              scale: [0.8, 1, 0.8],
-            }}
-            transition={{
-              duration: Math.random() * 15 + 10,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              times: [0, 0.6, 1],
-              ease: [0.4, 0, 0.2, 1],
-            }}
-          />
-        ))}
+        {useMemo(
+          () =>
+            [...Array(15)].map((_, i) => {
+              const width = Math.random() * 10 + 2;
+              const height = Math.random() * 10 + 2;
+              const left = Math.random() * 100;
+              const yDistance = -Math.random() * 400 - 100;
+              const xDistance = Math.random() * 30 - 15;
+              const duration = Math.random() * 10 + 6;
+              const delay = Math.random() * 2;
+
+              return (
+                <motion.div
+                  key={i}
+                  className="absolute rounded-full bg-white/15"
+                  style={{ width, height, left: `${left}%`, top: '100%' }}
+                  animate={{
+                    y: [0, yDistance],
+                    x: [0, xDistance],
+                    opacity: [0, 0.7, 0],
+                    scale: [0.6, 1, 0.6],
+                  }}
+                  transition={{
+                    duration,
+                    repeat: Infinity,
+                    delay,
+                    ease: [0.4, 0, 0.2, 1],
+                  }}
+                />
+              );
+            }),
+          []
+        )}
       </div>
 
       {/* Title */}
-      <motion.h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center z-10 px-4 section-title" initial={{ opacity: 0, y: -30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+      <h2
+        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center z-10 section-title"
+        
+      >
         Skills & Technologies
-      </motion.h2>
+      </h2>
 
-      {/* Skills Grid */}
-      <motion.div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 max-w-6xl w-full z-10 px-4" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: false, margin: '-50px' }}>
+      {/* Desktop/Tablet Layout - 3 Column Grid */}
+      <motion.div
+        className="hidden md:grid grid-cols-3 gap-6 md:gap-8 lg:gap-10 
+                   max-w-4xl lg:max-w-5xl xl:max-w-7xl w-full 
+                   z-10 px-4 md:px-6 pt-4 md:pt-6"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, margin: '-30px' }}
+      >
         {skillCategories.map((category) => (
-          <motion.div key={category.category} className="flex flex-col items-center" variants={itemAnimation}>
+          <motion.div key={category.category} className="flex flex-col items-center">
             <CategoryBubble category={category.category} />
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 w-full max-w-xs">
+            <div className="grid grid-cols-2 gap-3 md:gap-4 lg:gap-5 justify-items-center">
               {category.items.map((skill, skillIndex) => (
                 <SkillBubble key={skill.name} skill={skill} index={skillIndex} />
               ))}
@@ -175,6 +224,35 @@ export default function SkillSection() {
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Mobile Carousel */}
+      <div className="md:hidden w-full max-w-sm z-10 flex flex-col items-center pt-2">
+        <div className="relative overflow-hidden rounded-2xl w-full pt-4">
+          {/* Carousel Container */}
+          <motion.div className="flex" animate={{ x: `-${currentSlide * 100}%` }} transition={{ type: 'spring', stiffness: 300, damping: 30 }}>
+            {skillCategories.map((category, index) => (
+              <CategorySlide key={category.category} category={category.category} skills={category.items} />
+            ))}
+          </motion.div>
+
+          {/* Dots Indicator - DIBAWAH dan lebih besar */}
+          <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-3">
+            {skillCategories.map((_, index) => (
+              <button key={index} onClick={() => goToSlide(index)} className={`w-3 h-3 rounded-full transition-all ${index === currentSlide ? 'bg-white' : 'bg-white/30'}`} />
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation Arrows - DI LUAR container carousel dan lebih kecil */}
+        <div className="flex justify-between w-full max-w-xs mt-8">
+          <button onClick={prevSlide} className="bg-white/20 backdrop-blur-sm rounded-full p-2 hover:bg-white/30 transition-all text-sm">
+            ‹
+          </button>
+          <button onClick={nextSlide} className="bg-white/20 backdrop-blur-sm rounded-full p-2 hover:bg-white/30 transition-all text-sm">
+            ›
+          </button>
+        </div>
+      </div>
     </section>
   );
 }

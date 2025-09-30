@@ -41,11 +41,11 @@ export default function About() {
       </div>
 
       {/* Title */}
-      <motion.h2 className="text-3xl sm:text-5xl font-bold mb-6 relative z-10 section-title" style={{ color: 'var(--primary-ocean)' }} initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+      <h2 className="text-3xl sm:text-5xl font-bold mb-6 relative z-10 section-title" style={{ color: 'var(--primary-ocean)' }}>
         About Me
-      </motion.h2>
+      </h2>
 
-      <motion.div
+      <div
         className="relative max-w-3xl mx-auto p-8 rounded-2xl shadow-xl"
         style={{
           background: 'rgba(255, 255, 255, 0.15)', // transparan di light
@@ -54,15 +54,12 @@ export default function About() {
           border: '1px solid rgba(255,255,255,0.3)', // border halus
           color: 'var(--text-color)',
         }}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
       >
         <p className="text-lg sm:text-xl leading-relaxed">
           Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Bee</span>. I’m currently learning <span className="font-medium text-[var(--primary-ocean)]">React, Next.js, and Tailwind CSS</span>. My goal is to become
           confident in building modern web applications and share my journey along the way.
         </p>
-      </motion.div>
+      </div>
     </section>
   );
 }
