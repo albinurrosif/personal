@@ -27,22 +27,17 @@ const useResponsiveValue = (mobileValue: number, tabletValue: number, desktopVal
 const createParticle = (maxSize: number) => {
   return {
     id: Date.now() + Math.random(),
-    // Posisi awal acak di seluruh area section
     top: `${random(10, 90)}%`,
     left: `${random(10, 90)}%`,
-    // Ukuran partikel yang lebih kecil
     size: random(2, maxSize),
-    // Durasi hidup yang sangat panjang dan pelan
     duration: random(15, 30),
-    // Jarak tempuh acak ke arah horizontal (bisa ke kiri atau kanan)
     driftX: random(-100, 100),
-    // Jarak tempuh acak ke arah vertikal (bisa ke atas atau bawah)
     driftY: random(-100, 100),
     blur: random(2, 6),
   };
 };
 
-// --- KOMPONEN PARTIKEL TUNGGAL ---
+// --- Tipe & Interface (sudah benar) ---
 type ParticleType = {
   id: number;
   top: string;
@@ -62,7 +57,7 @@ interface ParticleProps {
 function Particle({ particle, onComplete }: ParticleProps) {
   return (
     <motion.div
-      className="absolute rounded-full bg-white/25" // Opacity diubah agar lebih redup
+      className="absolute rounded-full bg-white/25"
       style={{
         left: particle.left,
         top: particle.top,
@@ -74,7 +69,6 @@ function Particle({ particle, onComplete }: ParticleProps) {
       animate={{
         opacity: [0, 1, 1, 0],
         scale: [0, 1, 1, 0],
-        // Animasikan posisi x dan y ke tujuan acak
         x: [0, particle.driftX],
         y: [0, particle.driftY],
       }}
@@ -82,7 +76,6 @@ function Particle({ particle, onComplete }: ParticleProps) {
       transition={{
         duration: particle.duration,
         ease: 'easeInOut',
-        // Ease in dan out yang lebih panjang dan smooth
         times: [0, 0.2, 0.8, 1],
       }}
     />
@@ -91,10 +84,8 @@ function Particle({ particle, onComplete }: ParticleProps) {
 
 // --- Komponen Utama ---
 export default function FloatingParticles() {
-  // Nama komponen diubah agar lebih sesuai
-  const particleCount = useResponsiveValue(20, 30, 40); // Jumlah partikel disesuaikan
-  const maxParticleSize = useResponsiveValue(8, 12, 15); // Ukuran partikel jauh lebih kecil
-
+  const particleCount = useResponsiveValue(20, 30, 40);
+  const maxParticleSize = useResponsiveValue(8, 12, 15);
   const [particles, setParticles] = useState<ParticleType[]>([]);
 
   useEffect(() => {
@@ -102,7 +93,9 @@ export default function FloatingParticles() {
     setParticles(initialParticles);
   }, [particleCount, maxParticleSize]);
 
-  const handleAnimationComplete = (id: any) => {
+  // --- PERBAIKAN ERROR BUILD DI SINI ---
+  const handleAnimationComplete = (id: number) => {
+    // Tipe 'any' diubah menjadi 'number'
     setParticles((prev) => prev.filter((p) => p.id !== id));
     setTimeout(() => {
       setParticles((prev) => [...prev, createParticle(maxParticleSize)]);
@@ -111,15 +104,11 @@ export default function FloatingParticles() {
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
-           {' '}
       <AnimatePresence>
-               {' '}
         {particles.map((particle) => (
           <Particle key={particle.id} particle={particle} onComplete={() => handleAnimationComplete(particle.id)} />
         ))}
-             {' '}
       </AnimatePresence>
-         {' '}
     </div>
   );
 }
