@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Helper (tidak diubah)
-const random = (min, max) => Math.random() * (max - min) + min;
+const random = (min: number, max: number): number => Math.random() * (max - min) + min;
 
 // Custom Hook (tidak diubah)
 const useResponsiveValue = (mobileValue, tabletValue, desktopValue) => {

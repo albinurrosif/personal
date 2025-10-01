@@ -72,7 +72,7 @@ export default function ScrollIndicator() {
         mutationObserverRef.current.disconnect();
       }
     };
-  }, []);
+  }, [sections]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
