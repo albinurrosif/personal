@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FaHtml5, FaCss3, FaReact, FaNodeJs, FaGitAlt, FaLaravel, FaFigma } from 'react-icons/fa';
 import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript } from 'react-icons/si';
 import React, { useMemo, useState } from 'react';
+import FloatingBubbles from './FloatingBubbles'
 
 // Data skills
 const skillCategories = [
@@ -115,10 +116,9 @@ const CategorySlide = ({ category, skills }: { category: string; skills: Skill[]
     1: 'grid-cols-1',
     2: 'grid-cols-2',
     3: 'grid-cols-3',
-    4: 'grid-cols-2', // atau 'grid-cols-2 sm:grid-cols-4' untuk responsive
-    5: 'grid-cols-3', // atau 'grid-cols-3'
+    4: 'grid-cols-2',
+    5: 'grid-cols-3',
     6: 'grid-cols-3',
-    // default untuk lebih dari 6
   };
 
   const gridColsClass = gridColsMap[skills.length] || 'grid-cols-3';
@@ -137,72 +137,49 @@ const CategorySlide = ({ category, skills }: { category: string; skills: Skill[]
 
 export default function SkillSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % skillCategories.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + skillCategories.length) % skillCategories.length);
-  };
-
+  // Fungsi untuk langsung ke slide tertentu
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+
+    if (Math.abs(diff) > 50) {
+      // Minimum swipe distance
+      if (diff > 0) {
+        // Swipe left - next slide (circular)
+        setCurrentSlide((prev) => (prev + 1) % skillCategories.length);
+      } else {
+        // Swipe right - previous slide (circular)
+        setCurrentSlide((prev) => (prev - 1 + skillCategories.length) % skillCategories.length);
+      }
+    }
+
+    setTouchStart(null);
   };
 
   return (
     <section
       id="skills"
-      className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-6 sm:pb-8 md:pb-12 lg:pb-16 relative overflow-hidden"
+      className=" flex flex-col justify-start items-center px-4 sm:px-6 md:px-8 lg:px-12 relative overflow-hidden skills-section py-44 sm:py-52"
       style={{
-        background: `var(--ocean-middle)`,
         color: 'var(--text-color)',
       }}
     >
-      {/* Background Elements - OPTIMIZED */}
-      <div className="absolute inset-0 overflow-hidden">
-        {useMemo(
-          () =>
-            [...Array(15)].map((_, i) => {
-              const width = Math.random() * 10 + 2;
-              const height = Math.random() * 10 + 2;
-              const left = Math.random() * 100;
-              const yDistance = -Math.random() * 400 - 100;
-              const xDistance = Math.random() * 30 - 15;
-              const duration = Math.random() * 10 + 6;
-              const delay = Math.random() * 2;
-
-              return (
-                <motion.div
-                  key={i}
-                  className="absolute rounded-full bg-white/15"
-                  style={{ width, height, left: `${left}%`, top: '100%' }}
-                  animate={{
-                    y: [0, yDistance],
-                    x: [0, xDistance],
-                    opacity: [0, 0.7, 0],
-                    scale: [0.6, 1, 0.6],
-                  }}
-                  transition={{
-                    duration,
-                    repeat: Infinity,
-                    delay,
-                    ease: [0.4, 0, 0.2, 1],
-                  }}
-                />
-              );
-            }),
-          []
-        )}
-      </div>
+      <FloatingBubbles />
 
       {/* Title */}
-      <h2
-        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center z-10 section-title"
-        
-      >
-        Skills & Technologies
-      </h2>
+      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center z-10 section-title">Skills & Technologies</h2>
 
       {/* Desktop/Tablet Layout - 3 Column Grid */}
       <motion.div
@@ -225,32 +202,29 @@ export default function SkillSection() {
         ))}
       </motion.div>
 
-      {/* Mobile Carousel */}
-      <div className="md:hidden w-full max-w-sm z-10 flex flex-col items-center pt-2">
-        <div className="relative overflow-hidden rounded-2xl w-full pt-4">
-          {/* Carousel Container */}
-          <motion.div className="flex" animate={{ x: `-${currentSlide * 100}%` }} transition={{ type: 'spring', stiffness: 300, damping: 30 }}>
+      {/* Mobile Carousel*/}
+      <div className="md:hidden w-full max-w-sm z-10 flex flex-col items-center">
+        {/* Carousel Container */}
+        <div className="relative overflow-hidden rounded-2xl w-full" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+          <motion.div className="flex pt-4 pb-4" animate={{ x: `-${currentSlide * 100}%` }} transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}>
             {skillCategories.map((category, index) => (
               <CategorySlide key={category.category} category={category.category} skills={category.items} />
             ))}
           </motion.div>
-
-          {/* Dots Indicator - DIBAWAH dan lebih besar */}
-          <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-3">
-            {skillCategories.map((_, index) => (
-              <button key={index} onClick={() => goToSlide(index)} className={`w-3 h-3 rounded-full transition-all ${index === currentSlide ? 'bg-white' : 'bg-white/30'}`} />
-            ))}
-          </div>
         </div>
 
-        {/* Navigation Arrows - DI LUAR container carousel dan lebih kecil */}
-        <div className="flex justify-between w-full max-w-xs mt-8">
-          <button onClick={prevSlide} className="bg-white/20 backdrop-blur-sm rounded-full p-2 hover:bg-white/30 transition-all text-sm">
-            ‹
-          </button>
-          <button onClick={nextSlide} className="bg-white/20 backdrop-blur-sm rounded-full p-2 hover:bg-white/30 transition-all text-sm">
-            ›
-          </button>
+        {/* Dots Indicator */}
+        <div className="flex justify-center w-full mt-6 mb-2">
+          <div className="flex gap-2 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-full px-4 py-3 border border-white/20 shadow-lg">
+            {skillCategories.map((category, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-white scale-150 shadow-lg' : 'bg-white/30 hover:bg-white/50'}`}
+                title={category.category}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

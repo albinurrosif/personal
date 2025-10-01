@@ -1,10 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { useState, useRef, ReactNode } from 'react';
-import { useInView } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, Fragment, ReactNode } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import FloatingBubbles from './FloatingBubbles';
 
+// --- INTERFACE & DATA PROYEK (TIDAK DIUBAH) ---
 interface Project {
   title?: string;
   description?: string;
@@ -13,11 +15,6 @@ interface Project {
   link: string;
   tech?: string[];
   isComingSoon?: boolean;
-}
-
-interface ProjectCardProps {
-  project: Project;
-  index: number;
 }
 
 const projects: Project[] = [
@@ -30,225 +27,170 @@ const projects: Project[] = [
     link: 'https://github.com/albinurrosif/inventaris-smkn-1-sumenep.git',
     tech: ['Laravel', 'Bootstrap', 'MySQL'],
   },
+  // Tambahkan proyek lainnya di sini
   {
-    image: '/project/2.jpg',
+    image: '/project/2.jpg', // Ganti dengan gambar placeholder Anda
     link: '#',
     isComingSoon: true,
   },
 ];
 
-function ProjectCard({ project, index }: ProjectCardProps) {
-  const [showFullDescription, setShowFullDescription] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(cardRef, { once: false, margin: '-50px' });
+// --- HELPER UNTUK FORMAT DESKRIPSI ---
+const formatDescription = (text: string): ReactNode[] =>
+  text.split('\n').map((line, idx) => (
+    <span key={idx}>
+      {line}
+      <br />
+    </span>
+  ));
 
-  const toggleDescription = () => setShowFullDescription(!showFullDescription);
+// --- KOMPONEN BARU: KARTU PROYEK ---
+function ProjectCard({ project, onSelectProject }: { project: Project; onSelectProject: () => void }) {
+  // Desain Kartu untuk Proyek "Coming Soon"
+  if (project.isComingSoon) {
+    return (
+      <div className="group relative flex h-full min-h-[320px] w-full flex-col justify-center items-center overflow-hidden rounded-2xl shadow-lg border-2 border-dashed border-slate-600/70">
+        <div className="absolute inset-0 bg-slate-900/50" />
+        <div className="relative z-10 text-center">
+          <h3 className="text-xl font-bold text-slate-300">COMING SOON</h3>
+          <p className="text-sm text-slate-400 mt-1">New project in progress</p>
+        </div>
+      </div>
+    );
+  }
 
-  const formatDescription = (text: string): ReactNode[] =>
-    text.split('\n').map((line, idx) => (
-      <span key={idx}>
-        {line}
-        <br />
-      </span>
-    ));
-
+  // Desain Kartu untuk Proyek Normal
   return (
     <motion.div
-      ref={cardRef}
-      className="relative group overflow-hidden rounded-2xl shadow-lg flex flex-col h-full w-full max-w-md mx-auto"
-      style={{
-        background: 'rgba(15, 23, 42, 0.8)',
-        color: '#f1f5f9',
-        backdropFilter: 'blur(12px)',
-      }}
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
-      transition={{
-        duration: 0.6,
-        ease: 'easeOut',
-      }}
-      whileHover={{
-        y: -5,
-        transition: { type: 'spring', stiffness: 300 },
-      }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.5 }}
+      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl shadow-lg bg-slate-800/50 backdrop-blur-sm border border-slate-700/50"
     >
-      {/* Floating animation untuk SEMUA card */}
-      <motion.div
-        animate={{ y: [0, -8, 0] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: index * 1.5,
-        }}
-        className="w-full h-full flex flex-col"
-      >
-        {/* Image Section */}
-        <a
-          href={project.isComingSoon ? '#' : project.link}
-          target={project.isComingSoon ? '_self' : '_blank'}
-          rel="noopener noreferrer"
-          className={`block ${project.isComingSoon ? 'pointer-events-none cursor-default' : ''}`}
-          aria-label={project.isComingSoon ? 'Coming soon project' : `View ${project.title} project`}
-        >
-          <div className="relative h-48 w-full flex-shrink-0 overflow-hidden">
-            <Image
-              src={project.image}
-              alt={project.isComingSoon ? 'Coming soon project' : `${project.title} screenshot`}
-              fill
-              className={`object-cover transition-transform duration-500 ${project.isComingSoon ? 'filter blur-[2px] brightness-50' : 'group-hover:scale-105'}`}
-              priority={index === 0}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
-        </a>
+      {/* Gambar Proyek */}
+      <div className="relative h-48 w-full overflow-hidden">
+        <Image src={project.image} alt={`Screenshot of ${project.title}`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      </div>
 
-        {/* Content Section */}
-        <div className="p-5 flex flex-col flex-grow relative">
-          {/* Project normal content */}
-          {!project.isComingSoon && (
-            <div className="relative z-10 flex flex-col flex-grow">
-              <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
+      {/* Konten Teks */}
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="text-xl font-semibold text-slate-100">{project.title}</h3>
+        <p className="mt-2 flex-grow text-sm leading-relaxed text-slate-300 line-clamp-3">{project.description}</p>
 
-              <div className="text-sm mb-3 flex-grow min-h-[60px] opacity-90">{project.description}</div>
-
-              {/* Read More button */}
-              {project.fullDescription && (
-                <button
-                  onClick={toggleDescription}
-                  className="text-[var(--primary-ocean)] hover:text-[var(--primary-sky)] text-xs font-medium mb-3 self-start transition-colors duration-200 border-b border-[var(--primary-ocean)]/40 hover:border-[var(--primary-sky)]/60"
-                >
-                  {showFullDescription ? '▲ Read Less' : '▼ Read More'}
-                </button>
-              )}
-
-              {/* Full Description */}
-              {showFullDescription && project.fullDescription && <div className="text-sm mb-3 opacity-90 bg-white/5 p-3 rounded-lg">{formatDescription(project.fullDescription)}</div>}
-
-              {/* Tech Tags */}
-              <div className="flex flex-wrap gap-2 mt-auto">
-                {project.tech?.map((tag: string, i: number) => (
-                  <span
-                    key={i}
-                    className="px-2 py-1 font-bold text-xs rounded-md"
-                    style={{
-                      backgroundColor: 'var(--primary-ocean)',
-                      color: 'var(--text-color)',
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Coming soon */}
-          {project.isComingSoon && (
-            <div className="flex flex-col flex-grow justify-center items-center space-y-8 py-6">
-              {/* Badge compact */}
-              <div
-                className="px-6 py-3 rounded-full font-bold text-lg shadow-lg"
-                style={{
-                  backgroundColor: 'var(--primary-ocean)',
-                  color: 'var(--text-color)',
-                }}
-              >
-                COMING SOON
-              </div>
-
-              {/* Simple status */}
-              <div className="text-center">
-                <div
-                  className="w-20 h-0.5 rounded-full mx-auto mb-2"
-                  style={{
-                    backgroundColor: 'var(--primary-ocean)',
-                    opacity: 0.4,
-                  }}
-                ></div>
-                <div className="text-xs opacity-60">In Progress</div>
-              </div>
-            </div>
-          )}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {project.tech?.map((tag) => (
+            <span key={tag} className="rounded-full bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+              {tag}
+            </span>
+          ))}
         </div>
-      </motion.div>
+
+        <button onClick={onSelectProject} className="mt-6 w-full rounded-lg bg-[var(--primary-ocean)] py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-cyan-500 hover:scale-105">
+          Lihat Detail
+        </button>
+      </div>
     </motion.div>
   );
 }
 
-export default function Projects() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: false, margin: '-100px' });
+// --- KOMPONEN BARU: MODAL DETAIL PROYEK ---
+function ProjectModal({ project, isOpen, onClose }: { project: Project | null; isOpen: boolean; onClose: () => void }) {
+  if (!project) return null;
 
-  const getContainerClass = (): string => {
-    if (projects.length === 1) return 'flex justify-center';
-    return 'flex flex-wrap justify-center';
+  return (
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose}>
+        <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
+              <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-slate-900 border border-slate-700 p-6 text-left align-middle shadow-xl transition-all">
+                <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                  {/* Kolom Gambar */}
+                  <div className="w-full h-64 md:h-auto relative overflow-hidden rounded-lg">
+                    <Image src={project.image} alt={`Screenshot of ${project.title}`} fill className="object-cover" />
+                  </div>
+
+                  {/* Kolom Detail */}
+                  <div className="flex flex-col">
+                    <Dialog.Title as="h3" className="text-2xl font-bold leading-6 text-white">
+                      {project.title}
+                    </Dialog.Title>
+
+                    <div className="mt-4 text-sm text-slate-300 space-y-4">{project.fullDescription ? formatDescription(project.fullDescription) : project.description}</div>
+
+                    <div className="mt-6">
+                      <h4 className="font-semibold text-slate-200">Teknologi</h4>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {project.tech?.map((tag) => (
+                          <span key={tag} className="rounded-full bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-8 w-full text-center rounded-lg bg-slate-700 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-slate-600 hover:scale-105"
+                    >
+                      Lihat Kode di GitHub
+                    </a>
+                  </div>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition>
+  );
+}
+
+// --- KOMPONEN UTAMA: PROJECTS ---
+export default function Projects() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const openModal = (project: Project) => {
+    setSelectedProject(project);
   };
 
-  const getCardWidthClass = (): string => {
-    if (projects.length === 1) return 'w-full max-w-md';
-    if (projects.length === 2) return 'w-full md:w-[calc(50%-24px)] max-w-md';
-    return 'w-full md:w-[calc(50%-24px)] lg:w-[calc(33.333%-24px)] max-w-md';
+  const closeModal = () => {
+    setSelectedProject(null);
   };
 
   return (
-    <section ref={ref} id="projects" className="relative min-h-screen py-20 flex flex-col justify-center items-center overflow-hidden projects-section">
-      {/* Background gradient */}
-      <div className="absolute inset-0 z-0" />
+    <>
+      <section id="projects" className="relative items-center overflow-hidden projects-section py-44 sm:py-52">
+        <FloatingBubbles />
 
-      {/* Efek laut dalam subtle */}
-      <div className="absolute inset-0 z-0 opacity-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-blue-600/10"></div>
-      </div>
+        <div className="container mx-auto px-4 sm:px-6 relative z-10 w-full max-w-7xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 sm:mb-16 text-center section-title" style={{ color: 'var(--primary-ocean)' }}>
+            Projects
+          </h2>
 
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(25)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-white/25"
-            style={{
-              width: Math.random() * 15 + 5,
-              height: Math.random() * 15 + 5,
-              left: `${Math.random() * 100}%`,
-              top: '100%',
-            }}
-            animate={{
-              y: [0, -Math.random() * 600 - 200],
-              x: [0, Math.random() * 60 - 30],
-              opacity: [0, 0.9, 0],
-              scale: [0.8, 1, 0.8],
-            }}
-            transition={{
-              duration: Math.random() * 15 + 10,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              times: [0, 0.6, 1],
-              ease: [0.4, 0, 0.2, 1],
-            }}
-          />
-        ))}
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <ProjectCard key={index} project={project} onSelectProject={() => openModal(project)} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.h2
-          className="text-3xl sm:text-5xl font-bold mb-12 text-center section-title"
-          style={{ color: 'var(--primary-ocean)' }}
-          initial={{ opacity: 0, y: -30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
-          transition={{ duration: 0.8 }}
-        >
-          Projects
-        </motion.h2>
-
-        <motion.div className={`${getContainerClass()} gap-6 mx-auto`} initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
-          {projects.map((project, index) => (
-            <div key={index} className={`${getCardWidthClass()} flex-shrink-0 min-h-[400px] mb-6`}>
-              <ProjectCard project={project} index={index} />
-            </div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
+      <ProjectModal project={selectedProject} isOpen={!!selectedProject} onClose={closeModal} />
+    </>
   );
 }

@@ -80,15 +80,34 @@ body {
   display: none;
 }
 
+/* ===== NORMAL SCROLL FIX ===== */
+.normal-scroll-layout {
+  scroll-behavior: smooth;
+}
+
+.normal-section {
+  min-height: auto;
+  padding: 2rem 0;
+  position: relative;
+}
+
+/* Fix untuk section backgrounds */
+/* .about-section,
+.skills-section,
+.projects-section,
+.contact-section {
+  min-height: auto;
+  padding: 2rem 0;
+} */
 /* ===== SNAP CONTAINER ===== */
-.snap-container {
+/* .snap-container {
   scroll-snap-type: y mandatory;
   height: 100vh;
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
   position: relative;
-  /* Hapus scrollbar-width yang tidak support */
+
   -ms-overflow-style: none;
 }
 
@@ -110,17 +129,17 @@ body {
 .snap-align-none {
   scroll-snap-align: none !important;
   scroll-snap-stop: normal !important;
-}
+} */
 
 /* ===== SECTION BACKGROUNDS ===== */
 /* About Section - ocean-surface gradasi ke ocean-middle */
 .about-section {
-  background: linear-gradient(to bottom, var(--ocean-surface), var(--ocean-middle)) !important;
+  background: var(--ocean-surface) !important;
 }
 
 /* Skills Section - solid ocean-middle */
 .skills-section {
-  background: var(--ocean-middle) !important;
+  background: linear-gradient(to bottom, var(--ocean-surface), var(--ocean-middle)) !important;
 }
 
 /* Projects Section - ocean-middle gradasi ke ocean-deep */
@@ -301,8 +320,6 @@ body {
   border: 2px solid var(--wave-color);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
 }
-
-
 
 /* ===== PROJECTS SECTION STYLES ===== */
 .projects-section .section-title {
@@ -756,6 +773,48 @@ body {
   margin-bottom: 0 !important;
 }
 
-.about-section {
-  margin-top: 0 !important;
+/* ===== FIX HORIZONTAL SCROLL FOR MOBILE/TABLET ===== */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ===== EFEK CAHAYA BAWAH AIR ===== */
+
+@keyframes underwater-light {
+  0% {
+    transform: translateX(-10%) translateY(-10%) scale(1.2);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(10%) translateY(10%) scale(1.5);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(-10%) translateY(-10%) scale(1.2);
+    opacity: 0.4;
+  }
+}
+
+.underwater-effect::before {
+  content: '';
+  position: absolute;
+  inset: -50%; /* Dibuat lebih besar dari section untuk gerakan yang mulus */
+  z-index: 0;
+  
+  /* Gradasi cahaya yang besar dan kabur */
+  background-image: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255, 255, 255, 0.1), transparent);
+  
+  filter: blur(40px);
+  
+  /* Terapkan animasi */
+  animation: underwater-light 20s ease-in-out infinite;
+}
+
+/* Pastikan konten di dalam section berada di atas efek cahaya */
+.content-wrapper {
+  position: relative;
+  z-index: 1;
 }

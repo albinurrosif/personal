@@ -20,37 +20,35 @@ export default function Home() {
 
       {/* Floating Footer di bawah */}
       <Suspense fallback={null}>
-        <Footer /> {/* 🔥 Footer jadi component floating */}
+        <Footer />
       </Suspense>
 
-      {/* Snap Sections */}
-      <main className="snap-container">
+      
+      <main className="normal-scroll-container">
+        {' '}
+        {/* Ganti class name */}
         <Suspense fallback={<PageLoader sectionName="hero" />}>
-          <section id="hero" className="snap-section">
+          <section id="hero">
             <Hero />
           </section>
         </Suspense>
-
         <Suspense fallback={<PageLoader sectionName="about" />}>
-          <section id="about" className="snap-section">
+          <section id="about">
             <About />
           </section>
         </Suspense>
-
         <Suspense fallback={<PageLoader sectionName="skills" />}>
-          <section id="skills" className="snap-section">
+          <section id="skills">
             <Skills />
           </section>
         </Suspense>
-
         <Suspense fallback={<PageLoader sectionName="projects" />}>
-          <section id="projects" className="snap-section">
+          <section id="projects">
             <Projects />
           </section>
         </Suspense>
-
         <Suspense fallback={<PageLoader sectionName="contact" />}>
-          <section id="contact" className="snap-section">
+          <section id="contact">
             <ContactForm />
           </section>
         </Suspense>
