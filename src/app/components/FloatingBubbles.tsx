@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const random = (min: number, max: number): number => Math.random() * (max - min) + min;
 
 // Custom Hook (tidak diubah)
-const useResponsiveValue = (mobileValue, tabletValue, desktopValue) => {
+const useResponsiveValue = (mobileValue: number, tabletValue: number, desktopValue: number) => {
   const [value, setValue] = useState(desktopValue);
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -24,7 +24,7 @@ const useResponsiveValue = (mobileValue, tabletValue, desktopValue) => {
 };
 
 // --- FUNGSI UNTUK MEMBUAT PROPERTI PARTIKEL ACAK ---
-const createParticle = (maxSize) => {
+const createParticle = (maxSize: number) => {
   return {
     id: Date.now() + Math.random(),
     // Posisi awal acak di seluruh area section
@@ -43,7 +43,23 @@ const createParticle = (maxSize) => {
 };
 
 // --- KOMPONEN PARTIKEL TUNGGAL ---
-function Particle({ particle, onComplete }) {
+type ParticleType = {
+  id: number;
+  top: string;
+  left: string;
+  size: number;
+  duration: number;
+  driftX: number;
+  driftY: number;
+  blur: number;
+};
+
+interface ParticleProps {
+  particle: ParticleType;
+  onComplete: () => void;
+}
+
+function Particle({ particle, onComplete }: ParticleProps) {
   return (
     <motion.div
       className="absolute rounded-full bg-white/25" // Opacity diubah agar lebih redup
@@ -79,14 +95,14 @@ export default function FloatingParticles() {
   const particleCount = useResponsiveValue(20, 30, 40); // Jumlah partikel disesuaikan
   const maxParticleSize = useResponsiveValue(8, 12, 15); // Ukuran partikel jauh lebih kecil
 
-  const [particles, setParticles] = useState([]);
+  const [particles, setParticles] = useState<ParticleType[]>([]);
 
   useEffect(() => {
     const initialParticles = Array.from({ length: particleCount }).map(() => createParticle(maxParticleSize));
     setParticles(initialParticles);
   }, [particleCount, maxParticleSize]);
 
-  const handleAnimationComplete = (id) => {
+  const handleAnimationComplete = (id: any) => {
     setParticles((prev) => prev.filter((p) => p.id !== id));
     setTimeout(() => {
       setParticles((prev) => [...prev, createParticle(maxParticleSize)]);
