@@ -33,6 +33,8 @@
   /* Variabel baru untuk theme toggle */
   --primary-sky-light: #ffedd5;
   --primary-ocean-light: #67e8f9;
+
+  --particle: #fff7ed66;
 }
 
 /* 🌙 Dark Mode */
@@ -60,6 +62,8 @@
   /* Variabel baru untuk theme toggle */
   --primary-sky-light: #ffedd5;
   --primary-ocean-light: #22d3ee;
+
+  --particle: #ffffff26;
 }
 
 /* ===== BASE STYLES ===== */
@@ -91,14 +95,6 @@ body {
   position: relative;
 }
 
-/* Fix untuk section backgrounds */
-/* .about-section,
-.skills-section,
-.projects-section,
-.contact-section {
-  min-height: auto;
-  padding: 2rem 0;
-} */
 /* ===== SNAP CONTAINER ===== */
 /* .snap-container {
   scroll-snap-type: y mandatory;
@@ -132,24 +128,18 @@ body {
 } */
 
 /* ===== SECTION BACKGROUNDS ===== */
-/* About Section - ocean-surface gradasi ke ocean-middle */
-.about-section {
-  background: var(--ocean-surface) !important;
-}
 
-/* Skills Section - solid ocean-middle */
-.skills-section {
-  background: linear-gradient(to bottom, var(--ocean-surface), var(--ocean-middle)) !important;
-}
-
-/* Projects Section - ocean-middle gradasi ke ocean-deep */
-.projects-section {
-  background: linear-gradient(to bottom, var(--ocean-middle), var(--ocean-deep)) !important;
-}
-
-/* Contact Section - solid ocean-deep */
+/* Jadikan semua section transparan agar latar belakang di belakangnya terlihat */
+.about-section,
+.skills-section,
+.projects-section,
 .contact-section {
-  background: var(--ocean-deep) !important;
+  background: transparent !important;
+}
+
+/* KELAS BARU: Gradasi untuk seluruh bagian laut */
+.ocean-background {
+  background: linear-gradient(to bottom, var(--ocean-surface), var(--ocean-middle), var(--ocean-deep));
 }
 
 /* ===== CONTENT STYLES ===== */
@@ -803,12 +793,12 @@ body {
   position: absolute;
   inset: -50%; /* Dibuat lebih besar dari section untuk gerakan yang mulus */
   z-index: 0;
-  
+
   /* Gradasi cahaya yang besar dan kabur */
   background-image: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255, 255, 255, 0.1), transparent);
-  
+
   filter: blur(40px);
-  
+
   /* Terapkan animasi */
   animation: underwater-light 20s ease-in-out infinite;
 }
@@ -818,3 +808,97 @@ body {
   position: relative;
   z-index: 1;
 }
+
+/* ===== ANIMASI PARTIKEL CSS ===== */
+
+/* Wadah untuk semua partikel */
+.particle-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden; /* Pastikan partikel tidak keluar dari wadah */
+}
+
+/* Gaya dasar untuk setiap partikel */
+.particle {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  background-color: #fff7ed66; /* Warna partikel */
+  filter: blur(2px); /* Sedikit blur */
+
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes drift-short {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(var(--ocean-height, 1000px) * -0.3));
+    opacity: 0;
+  }
+}
+
+@keyframes drift-medium {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(var(--ocean-height, 1000px) * -0.6));
+    opacity: 0;
+  }
+}
+
+@keyframes drift-long {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(var(--ocean-height, 1000px) * -0.9));
+    opacity: 0;
+  }
+}
+/* Pengaturan individual untuk setiap partikel.
+  Ini untuk mensimulasikan keacakan (posisi, ukuran, kecepatan).
+*/
+/* GANTI SEMUA BLOK .particle:nth-child(n) ANDA DENGAN YANG BARU INI */
+
+.particle:nth-child(1) { width: 10px; height: 10px; left: 5%; animation-duration: 60s; animation-delay: -2s; animation-name: drift-medium; }
+.particle:nth-child(2) { width: 15px; height: 15px; left: 15%; animation-duration: 90s; animation-delay: -5s; animation-name: drift-long; }
+.particle:nth-child(3) { width: 8px; height: 8px; left: 25%; animation-duration: 40s; animation-delay: -10s; animation-name: drift-short; }
+.particle:nth-child(4) { width: 12px; height: 12px; left: 35%; animation-duration: 100s; animation-delay: -15s; animation-name: drift-long; }
+.particle:nth-child(5) { width: 18px; height: 18px; left: 45%; animation-duration: 75s; animation-delay: -3s; animation-name: drift-medium; }
+.particle:nth-child(6) { width: 10px; height: 10px; left: 55%; animation-duration: 50s; animation-delay: -8s; animation-name: drift-short; }
+.particle:nth-child(7) { width: 14px; height: 14px; left: 65%; animation-duration: 110s; animation-delay: -12s; animation-name: drift-long; }
+.particle:nth-child(8) { width: 7px; height: 7px; left: 75%; animation-duration: 80s; animation-delay: -18s; animation-name: drift-medium; }
+.particle:nth-child(9) { width: 16px; height: 16px; left: 85%; animation-duration: 45s; animation-delay: -7s; animation-name: drift-short; }
+.particle:nth-child(10) { width: 11px; height: 11px; left: 95%; animation-duration: 120s; animation-delay: -14s; animation-name: drift-long; }
+.particle:nth-child(11) { width: 9px; height: 9px; left: 10%; animation-duration: 65s; animation-delay: -9s; animation-name: drift-medium; }
+.particle:nth-child(12) { width: 13px; height: 13px; left: 20%; animation-duration: 48s; animation-delay: -4s; animation-name: drift-short; }
+.particle:nth-child(13) { width: 17px; height: 17px; left: 30%; animation-duration: 95s; animation-delay: -11s; animation-name: drift-long; }
+.particle:nth-child(14) { width: 8px; height: 8px; left: 40%; animation-duration: 70s; animation-delay: -17s; animation-name: drift-medium; }
+.particle:nth-child(15) { width: 12px; height: 12px; left: 50%; animation-duration: 55s; animation-delay: -6s; animation-name: drift-short; }
+.particle:nth-child(16) { width: 15px; height: 15px; left: 60%; animation-duration: 105s; animation-delay: -13s; animation-name: drift-long; }
+.particle:nth-child(17) { width: 10px; height: 10px; left: 70%; animation-duration: 85s; animation-delay: -1s; animation-name: drift-medium; }
+.particle:nth-child(18) { width: 14px; height: 14px; left: 80%; animation-duration: 42s; animation-delay: -16s; animation-name: drift-short; }
+.particle:nth-child(19) { width: 9px; height: 9px; left: 90%; animation-duration: 98s; animation-delay: -10s; animation-name: drift-long; }
+.particle:nth-child(20) { width: 11px; height: 11px; left: 0%; animation-duration: 78s; animation-delay: -5s; animation-name: drift-medium; }
+.particle:nth-child(21) { width: 16px; height: 16px; left: 22%; animation-duration: 58s; animation-delay: -19s; animation-name: drift-short; }
+.particle:nth-child(22) { width: 8px; height: 8px; left: 33%; animation-duration: 115s; animation-delay: -2s; animation-name: drift-long; }
+.particle:nth-child(23) { width: 13px; height: 13px; left: 44%; animation-duration: 68s; animation-delay: -9s; animation-name: drift-medium; }
+.particle:nth-child(24) { width: 18px; height: 18px; left: 77%; animation-duration: 53s; animation-delay: -14s; animation-name: drift-short; }
+.particle:nth-child(25) { width: 7px; height: 7px; left: 88%; animation-duration: 125s; animation-delay: -7s; animation-name: drift-long; }

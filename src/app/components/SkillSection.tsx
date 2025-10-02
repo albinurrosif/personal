@@ -176,7 +176,7 @@ export default function SkillSection() {
         color: 'var(--text-color)',
       }}
     >
-      <FloatingBubbles />
+      
 
       {/* Title */}
       <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center z-10 section-title">Skills & Technologies</h2>

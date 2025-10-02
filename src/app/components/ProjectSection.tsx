@@ -87,7 +87,7 @@ function ProjectCard({ project, onSelectProject }: { project: Project; onSelectP
           ))}
         </div>
 
-        <button onClick={onSelectProject} className="mt-6 w-full rounded-lg bg-[var(--primary-ocean)] py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-cyan-500 hover:scale-105">
+        <button onClick={onSelectProject} className="mt-6 w-full rounded-lg bg-[var(--primary-ocean)] py-2.5 text-sm font-semibold shadow-lg transition-all duration-300 hover:bg-[var(--primary-ocean)] hover:scale-105">
           Lihat Detail
         </button>
       </div>
@@ -175,8 +175,6 @@ export default function Projects() {
   return (
     <>
       <section id="projects" className="relative items-center overflow-hidden projects-section py-44 sm:py-52">
-        <FloatingBubbles />
-
         <div className="container mx-auto px-4 sm:px-6 relative z-10 w-full max-w-7xl">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 sm:mb-16 text-center section-title" style={{ color: 'var(--primary-ocean)' }}>
             Projects

@@ -12,7 +12,7 @@ export default function ContactForm() {
   const form = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: false, margin: '-100px' });
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ export default function ContactForm() {
   return (
     // Perubahan utama ada di className section ini
     <section ref={sectionRef} id="contact" className="relative flex flex-col items-center justify-center min-h-screen px-6 overflow-hidden contact-section">
-      <FloatingBubbles />
+      
 
       {/* Title (Tidak diubah) */}
       <h2 className="text-3xl sm:text-5xl font-bold mb-12 text-center z-10 section-title">Contact Me</h2>

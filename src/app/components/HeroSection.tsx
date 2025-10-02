@@ -22,7 +22,7 @@ export default function Home() {
 
     const interval = setInterval(() => {
       const target = words[index];
-      const chars = '!$&?;<>-_\\/()[]{}—=+*^?#~________';
+      const chars = '!$&?;:%#@<>-—=+*^?#~';
 
       let count = 0;
       const scrambleInterval = setInterval(() => {

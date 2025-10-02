@@ -11,7 +11,7 @@ export default function About() {
         color: 'var(--text-color)',
       }}
     >
-      <FloatingBubbles />
+     
 
       {/* Title */}
       <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 relative z-10 section-title" style={{ color: 'var(--primary-ocean)' }}>
