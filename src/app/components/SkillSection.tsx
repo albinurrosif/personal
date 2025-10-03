@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { FaHtml5, FaCss3, FaReact, FaNodeJs, FaGitAlt, FaLaravel, FaFigma } from 'react-icons/fa';
 import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript } from 'react-icons/si';
 import React, { useMemo, useState } from 'react';
-import FloatingBubbles from './FloatingBubbles'
+import FloatingBubbles from './FloatingBubbles';
 
 // Data skills
 const skillCategories = [
@@ -176,8 +176,6 @@ export default function SkillSection() {
         color: 'var(--text-color)',
       }}
     >
-      
-
       {/* Title */}
       <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center z-10 section-title">Skills & Technologies</h2>
 
@@ -205,7 +203,7 @@ export default function SkillSection() {
       {/* Mobile Carousel*/}
       <div className="md:hidden w-full max-w-sm z-10 flex flex-col items-center">
         {/* Carousel Container */}
-        <div className="relative overflow-hidden rounded-2xl w-full" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        <div className="relative overflow-hidden rounded-2xl w-full pb-4" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <motion.div className="flex pt-4 pb-4" animate={{ x: `-${currentSlide * 100}%` }} transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}>
             {skillCategories.map((category, index) => (
               <CategorySlide key={category.category} category={category.category} skills={category.items} />
