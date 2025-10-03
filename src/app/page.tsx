@@ -1,13 +1,14 @@
 'use client';
 
-import { lazy, Suspense, useRef, useEffect } from 'react';
+import { Suspense, useRef, useEffect } from 'react';
 
-const Hero = lazy(() => import('@/app/components/HeroSection'));
-const About = lazy(() => import('@/app/components/AboutMe'));
-const Projects = lazy(() => import('@/app/components/ProjectSection'));
-const Skills = lazy(() => import('@/app/components/SkillSection'));
-const ContactForm = lazy(() => import('@/app/components/ContactForm'));
-const Footer = lazy(() => import('@/app/components/Footer'));
+import Hero from '@/app/components/HeroSection';
+import About from '@/app/components/AboutMe';
+import Projects from '@/app/components/ProjectSection';
+import Skills from '@/app/components/SkillSection';
+import ContactForm from '@/app/components/ContactForm';
+import Footer from '@/app/components/Footer';
+
 
 import PageLoader from '@/app/components/PageLoader';
 import ScrollIndicator from '@/app/components/ScrollIndicator';
