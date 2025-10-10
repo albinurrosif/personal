@@ -66,7 +66,7 @@ export default function Home() {
       </p>
 
       {/* CTA buttons - Floating Bubbles */}
-      <motion.div className="flex flex-col sm:flex-row gap-6 relative z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }}>
+      <motion.div className="flex flex-col sm:flex-row gap-6 relative z-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }}>
         {/* Projects Bubble */}
         <motion.button onClick={() => smoothScroll('projects')} className="px-8 py-4 font-semibold rounded-full transition-all duration-300 hero-bubble-primary" whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
           View Projects

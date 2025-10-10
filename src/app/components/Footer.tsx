@@ -42,7 +42,7 @@ export default function Footer() {
       animate={controls}
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
     >
-      <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row md:justify-start 2xl:justify-between items-center gap-2">
+      <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row md:justify-start 2xl:justify-between 2xl:px-10 items-center gap-2">
         {/* Copyright */}
         <div className="text-xs sm:text-sm footer-text">© {currentYear} Albinur.</div>
 

@@ -9,7 +9,6 @@ import Skills from '@/app/components/SkillSection';
 import ContactForm from '@/app/components/ContactForm';
 import Footer from '@/app/components/Footer';
 
-
 import PageLoader from '@/app/components/PageLoader';
 import ScrollIndicator from '@/app/components/ScrollIndicator';
 
