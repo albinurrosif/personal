@@ -36,7 +36,7 @@ export default function Footer() {
 
   return (
     <motion.footer className="fixed bottom-0 left-0 right-0 z-40" variants={footerVariants} initial="hidden" animate={controls} transition={{ type: 'spring', stiffness: 100, damping: 20 }}>
-      <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row md:justify-start xl:justify-between xl:px-20 items-center gap-2">
+      <div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row md:justify-start xl:justify-between xl:px-30 items-center gap-2">
         {/* Copyright */}
         <div className="text-xs sm:text-sm footer-text">© {currentYear} Albinur.</div>
 
