@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Typewriter } from 'react-simple-typewriter';
 
 export default function Home() {
-  const [text, setText] = useState('Bee');
+  const [text, setText] = useState('Bee ');
 
   const smoothScroll = (targetId: string) => {
     const targetElement = document.getElementById(targetId);
@@ -17,7 +17,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const words = ['Bee', 'Albi'];
+    const words = ['Bee ', 'Albi'];
     let index = 0;
 
     const interval = setInterval(() => {
