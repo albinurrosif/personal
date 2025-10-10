@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
-import { ThemeProvider} from '@/app/contexts/ThemeContext';
+import { ThemeProvider } from '@/app/contexts/ThemeContext';
 import ThemeToggle from '@/app/components/ThemeToggle';
+import GoogleAnalytics from '@/app/components/GoogleAnalytics';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const geistSans = Geist({
@@ -47,6 +48,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}>
         <ThemeProvider>
+          {process.env.NODE_ENV === 'production' && <GoogleAnalytics />}
           {children}
           <ThemeToggle />
         </ThemeProvider>
