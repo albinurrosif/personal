@@ -19,16 +19,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'Albi Portfolio',
+  title: 'Albi Nur Portfolio',
   description: 'My personal portfolio showcasing projects and skills.',
+  verification: { google: 'FMrUmPZzKPul48fYnMY8yGvJbZC5hJpp7v1vQ-mjfow' },
   openGraph: {
-    title: 'Albi Portfolio',
-    description: 'Check out my projects and skills.',
-    url: 'https://yourdomain.com',
+    title: 'Albi Nur Portfolio',
+    description: 'Portfolio of Albi Nur Rosif, a web developer specializing in React...',
+    url: 'https://albinur.vercel.app',
     siteName: 'Albinur Portfolio',
     images: [
       {
-        url: '/preview.png',
+        url: '/public/project/Dashboard-Admin-Web-Inventaris-SMKN-1-Sumenep-09-25-2025_06_42_PM.png',
         width: 1200,
         height: 630,
         alt: 'Albinur Portfolio',
