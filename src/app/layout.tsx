@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from '@/app/contexts/ThemeContext';
 import ThemeToggle from '@/app/components/ThemeToggle';
 import GoogleAnalytics from '@/app/components/GoogleAnalytics';
+import { Analytics } from '@vercel/analytics/next';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const geistSans = Geist({
@@ -64,6 +65,7 @@ export default function RootLayout({
             },
           }}
         />
+        <Analytics />
       </body>
     </html>
   );
