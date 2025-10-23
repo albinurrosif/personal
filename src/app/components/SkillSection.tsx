@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { FaHtml5, FaCss3, FaReact, FaNodeJs, FaGitAlt, FaLaravel, FaFigma } from 'react-icons/fa';
-import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript } from 'react-icons/si';
+import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript, SiFirebase } from 'react-icons/si';
 import React, { useMemo, useState } from 'react';
 import FloatingBubbles from './FloatingBubbles';
 
@@ -26,6 +26,7 @@ const skillCategories = [
       { name: 'Express.js', icon: FaNodeJs, color: '#000000' },
       { name: 'Laravel', icon: FaLaravel, color: '#FF2D20' },
       { name: 'MySQL', icon: SiMysql, color: '#4479A1' },
+      { name: 'Firebase', icon: SiFirebase, color: '#FFCA28' },
     ],
   },
   {

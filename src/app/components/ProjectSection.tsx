@@ -12,7 +12,10 @@ interface Project {
   description?: string;
   fullDescription?: string;
   image: string;
-  link: string;
+  link: {
+    demo?: string;
+    github?: string;
+  };
   tech?: string[];
   isComingSoon?: boolean;
 }
@@ -24,13 +27,22 @@ const projects: Project[] = [
     fullDescription:
       'A School Asset & Inventory Management System built on the Laravel (PHP) framework.\n\nIt features a hybrid tracking system to manage both bulk supplies and individual assets using unique, system-generated QR codes. With role-based access for Admins, Operators, and Teachers, the application streamlines the entire asset lifecycle—from inventory and location tracking to borrowing and maintenance—ensuring accountability through a comprehensive activity log.',
     image: '/project/Dashboard-Admin-Web-Inventaris-SMKN-1-Sumenep-09-25-2025_06_42_PM.png',
-    link: 'https://github.com/albinurrosif/inventaris-smkn-1-sumenep.git',
+    link: { github: 'https://github.com/albinurrosif/inventaris-smkn-1-sumenep.git' },
     tech: ['Laravel', 'Bootstrap', 'MySQL'],
+  },
+  {
+    title: 'Kumpulink - Link-in-Bio SaaS App',
+    description: 'A full-stack SaaS web application (like Linktree) for creating custom public profile pages with aggregated important links.',
+    fullDescription:
+      'Built Kumpulink from scratch, a full-stack Software as a Service (SaaS) web application enabling users to create custom public profile pages to gather all their important links in one place. Key features include user authentication (Firebase Auth), a private dashboard for link management (CRUD via Firestore), dynamic public pages (/username), a copy-link button, responsive design (Mobile-First), and interactive notifications & modals.',
+    image: '/project/kumpulink.vercel.app_(iPhone 14 Pro Max).png',
+    link: { demo: 'https://kumpulink.vercel.app/' },
+    tech: ['Next.js', 'React.js', 'Tailwind CSS', 'daisyUI', 'Firebase Authentication', 'Firebase Firestore', 'Vercel', 'JavaScript (ES6+)'],
   },
   // Tambahkan proyek lainnya di sini
   {
     image: '/project/2.jpg', // Ganti dengan gambar placeholder Anda
-    link: '#',
+    link: { demo: '#', github: '#' },
     isComingSoon: true,
   },
 ];
@@ -88,7 +100,7 @@ function ProjectCard({ project, onSelectProject }: { project: Project; onSelectP
         </div>
 
         <button onClick={onSelectProject} className="mt-6 w-full rounded-lg bg-[var(--primary-ocean)] py-2.5 text-sm font-semibold shadow-lg transition-all duration-300 hover:bg-[var(--primary-ocean)] hover:scale-105">
-          Lihat Detail
+          View Details
         </button>
       </div>
     </motion.div>
@@ -110,7 +122,7 @@ function ProjectModal({ project, isOpen, onClose }: { project: Project | null; i
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
               <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-slate-900 border border-slate-700 p-6 text-left align-middle shadow-xl transition-all">
-                <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors" >
+                <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -141,14 +153,33 @@ function ProjectModal({ project, isOpen, onClose }: { project: Project | null; i
                       </div>
                     </div>
 
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-8 w-full text-center rounded-lg bg-slate-700 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-slate-600 hover:scale-105"
-                    >
-                      Lihat Kode di GitHub
-                    </a>
+                    <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                      {/* Container untuk tombol */}
+                      {/* Tombol Demo (Hanya muncul jika project.link.demo ada) */}
+                      {project.link.demo && (
+                        <a
+                          href={project.link.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          // Styling berbeda untuk aksi utama (demo)
+                          className="flex-1 text-center rounded-lg bg-[var(--primary-ocean)] py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[var(--primary-ocean)] hover:scale-105"
+                        >
+                          Launch App
+                        </a>
+                      )}
+                      {/* Tombol GitHub (Hanya muncul jika project.link.github ada) */}
+                      {project.link.github && (
+                        <a
+                          href={project.link.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          // Styling berbeda untuk aksi sekunder (kode)
+                          className="flex-1 text-center rounded-lg bg-slate-700 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-slate-600 hover:scale-105"
+                        >
+                          {project.link.demo ? '</> View Code' : 'View Code in GitHub'} {/* Teks dinamis */}
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Dialog.Panel>
