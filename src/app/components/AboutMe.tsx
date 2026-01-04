@@ -11,8 +11,6 @@ export default function About() {
         color: 'var(--text-color)',
       }}
     >
-     
-
       {/* Title */}
       <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 relative z-10 section-title" style={{ color: 'var(--primary-ocean)' }}>
         About Me
@@ -29,8 +27,9 @@ export default function About() {
         }}
       >
         <p className="text-base sm:text-lg lg:text-xl leading-relaxed">
-          Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Bee</span>. I’m currently learning <span className="font-medium text-[var(--primary-ocean)]">React, Next.js, and Tailwind CSS</span>. My goal is to become
-          confident in building modern web applications and share my journey along the way.
+           Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Bee</span>. I build web applications using
+          <span className="font-medium text-[var(--primary-ocean)]">React, Express.Js, Next.js, and Tailwind CSS</span>, and I’m continuously improving my skills by working on personal projects. My goal is to become a reliable fullstack
+          JavaScript developer by building real-world applications and sharing my development journey.
         </p>
       </div>
     </section>
