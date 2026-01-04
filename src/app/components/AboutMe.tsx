@@ -27,8 +27,8 @@ export default function About() {
         }}
       >
         <p className="text-base sm:text-lg lg:text-xl leading-relaxed">
-           Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Bee</span>. I build web applications using
-          <span className="font-medium text-[var(--primary-ocean)]">React, Express.Js, Next.js, and Tailwind CSS</span>, and I’m continuously improving my skills by working on personal projects. My goal is to become a reliable fullstack
+          Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Bee</span>. I build web applications using
+          <span className="font-medium text-[var(--primary-ocean)]"> React, Express.Js, Next.js, and Tailwind CSS</span>, and I’m continuously improving my skills by working on personal projects. My goal is to become a reliable fullstack
           JavaScript developer by building real-world applications and sharing my development journey.
         </p>
       </div>
