@@ -48,8 +48,6 @@ export default function ContactForm() {
   return (
     // Perubahan utama ada di className section ini
     <section ref={sectionRef} id="contact" className="relative flex flex-col items-center justify-center min-h-screen px-6 overflow-hidden contact-section">
-      
-
       {/* Title (Tidak diubah) */}
       <h2 className="text-3xl sm:text-5xl font-bold mb-12 text-center z-10 section-title">Contact Me</h2>
 
@@ -72,7 +70,12 @@ export default function ContactForm() {
           <input type="hidden" name="time" />
 
           <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }} transition={{ duration: 0.6, delay: 0.7 }}>
-            <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-3 p-4 rounded-xl font-semibold shadow-lg transition-all duration-300 submit-button">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-3 p-4 rounded-xl font-semibold shadow-lg transition-all duration-300 submit-button active:scale-95
+"
+            >
               {loading ? (
                 <>
                   <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>

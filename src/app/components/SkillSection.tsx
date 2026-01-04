@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3, FaReact, FaNodeJs, FaGitAlt, FaLaravel, FaFigma } from 'react-icons/fa';
-import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript, SiFirebase } from 'react-icons/si';
+import { FaHtml5, FaCss3, FaReact, FaNodeJs, FaGitAlt, FaLaravel, FaFigma, FaCode} from 'react-icons/fa';
+import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript, SiFirebase, SiPostman } from 'react-icons/si';
+import { VscVscode } from 'react-icons/vsc';
 import React, { useMemo, useState } from 'react';
 import FloatingBubbles from './FloatingBubbles';
 
@@ -30,10 +31,12 @@ const skillCategories = [
     ],
   },
   {
-    category: 'Tools & Others',
+    category: 'Tools',
     items: [
       { name: 'Git', icon: FaGitAlt, color: '#F05032' },
       { name: 'Figma', icon: FaFigma, color: '#F24E1E' },
+      { name: 'VS Code', icon: VscVscode, color: '#007ACC' },
+      { name: 'Postman', icon: SiPostman, color: '#FF6C37' },
     ],
   },
 ];
@@ -72,7 +75,8 @@ const SkillBubble = ({ skill, index }: { skill: Skill; index: number }) => {
     <motion.div
       className="flex flex-col items-center justify-center rounded-2xl group cursor-pointer relative overflow-hidden skill-bubble
                  w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32
-                 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6"
+                 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 transition-transform duration-150 active:scale-95
+"
       style={{ aspectRatio: '1 / 1' }}
       variants={floatingAnimation}
       animate="floating"
@@ -205,7 +209,12 @@ export default function SkillSection() {
       <div className="md:hidden w-full max-w-sm z-10 flex flex-col items-center">
         {/* Carousel Container */}
         <div className="relative overflow-hidden rounded-2xl w-full pb-4" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-          <motion.div className="flex pt-4 pb-4" animate={{ x: `-${currentSlide * 100}%` }} transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}>
+          <motion.div
+            className="flex pt-4 pb-4
+"
+            animate={{ x: `-${currentSlide * 100}%` }}
+            transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
+          >
             {skillCategories.map((category, index) => (
               <CategorySlide key={category.category} category={category.category} skills={category.items} />
             ))}

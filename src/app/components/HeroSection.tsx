@@ -54,7 +54,7 @@ export default function Home() {
     >
       {/* Heading */}
       <h1 className="text-3xl sm:text-5xl font-bold mb-4 flex items-center gap-x-2">
-        <span>Hi, I&apos;m</span>
+        <span>Hi, I&apos;m </span>
         <span className="inline-block relative w-[4ch] text-center">
           <span className="text-[var(--primary-sky)] font-mono">{text}</span>
         </span>
@@ -62,18 +62,30 @@ export default function Home() {
 
       {/* Subheading */}
       <p className="text-lg sm:text-xl max-w-xl mb-6 relative z-10 opacity-90">
-        <Typewriter words={['Aspiring Software Developer', 'React Enthusiast', 'Learning Next.js & Tailwind']} loop={0} cursor cursorStyle="|" typeSpeed={70} deleteSpeed={50} delaySpeed={1500} />
+        <Typewriter words={['JavaScript Web Developer', 'React · REST API · Tailwind', 'Learning Next.js']} loop={0} cursor cursorStyle="|" typeSpeed={70} deleteSpeed={50} delaySpeed={1500} />
       </p>
 
       {/* CTA buttons - Floating Bubbles */}
       <motion.div className="flex flex-col sm:flex-row gap-6 relative z-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }}>
         {/* Projects Bubble */}
-        <motion.button onClick={() => smoothScroll('projects')} className="px-8 py-4 font-semibold rounded-full transition-all duration-300 hero-bubble-primary" whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
+        <motion.button
+          onClick={() => smoothScroll('projects')}
+          className="px-8 py-4 font-semibold rounded-full transition-all duration-300 hero-bubble-primary active:scale-95
+"
+          whileHover={{ scale: 1.05, y: -5 }}
+          whileTap={{ scale: 0.95 }}
+        >
           View Projects
         </motion.button>
 
         {/* Contact Bubble */}
-        <motion.button onClick={() => smoothScroll('contact')} className="px-8 py-4 rounded-full font-semibold transition-all duration-300 hero-bubble-secondary" whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
+        <motion.button
+          onClick={() => smoothScroll('contact')}
+          className="px-8 py-4 rounded-full font-semibold transition-all duration-300 hero-bubble-secondary active:scale-95
+"
+          whileHover={{ scale: 1.05, y: -5 }}
+          whileTap={{ scale: 0.95 }}
+        >
           Get In Touch
         </motion.button>
       </motion.div>

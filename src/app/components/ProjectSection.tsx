@@ -113,7 +113,11 @@ function ProjectCard({ project, onSelectProject }: { project: Project; onSelectP
           ))}
         </div>
 
-        <button onClick={onSelectProject} className="mt-6 w-full rounded-lg bg-[var(--primary-ocean)] py-2.5 text-sm font-semibold shadow-lg transition-all duration-300 hover:bg-[var(--primary-ocean)] hover:scale-105">
+        <button
+          onClick={onSelectProject}
+          className="mt-6 w-full rounded-lg bg-[var(--primary-ocean)] py-2.5 text-sm font-semibold shadow-lg transition-all duration-300 hover:bg-[var(--primary-ocean)] hover:scale-105 active:scale-95
+"
+        >
           View Details
         </button>
       </div>
@@ -157,7 +161,7 @@ function ProjectModal({ project, isOpen, onClose }: { project: Project | null; i
                     <div className="mt-4 text-sm text-slate-300 space-y-4">{project.fullDescription ? formatDescription(project.fullDescription) : project.description}</div>
 
                     <div className="mt-6">
-                      <h4 className="font-semibold text-slate-200">Teknologi</h4>
+                      
                       <div className="mt-2 flex flex-wrap gap-2">
                         {project.tech?.map((tag) => (
                           <span key={tag} className="rounded-full bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
@@ -165,7 +169,7 @@ function ProjectModal({ project, isOpen, onClose }: { project: Project | null; i
                           </span>
                         ))}
                       </div>
-                    </div>
+                    </div>  
 
                     <div className="mt-8 flex flex-col sm:flex-row gap-4">
                       {/* Container untuk tombol */}
@@ -176,7 +180,8 @@ function ProjectModal({ project, isOpen, onClose }: { project: Project | null; i
                           target="_blank"
                           rel="noopener noreferrer"
                           // Styling berbeda untuk aksi utama (demo)
-                          className="flex-1 text-center rounded-lg bg-[var(--primary-ocean)] py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[var(--primary-ocean)] hover:scale-105"
+                          className="flex-1 text-center rounded-lg bg-[var(--primary-ocean)] py-3 text-sm font-semibold text-foreground shadow-lg transition-all duration-300 hover:bg-[var(--primary-ocean)] hover:scale-105 active:scale-95
+"
                         >
                           Launch App
                         </a>
