@@ -32,12 +32,26 @@ const projects: Project[] = [
   },
   {
     title: 'Kumpulink - Link-in-Bio SaaS App',
-    description: 'A full-stack SaaS web application (like Linktree) for creating custom public profile pages with aggregated important links.',
+    description: 'A full-stack SaaS web application (like Linktree) for creating custom public profile pages',
     fullDescription:
       'Built Kumpulink from scratch, a full-stack Software as a Service (SaaS) web application enabling users to create custom public profile pages to gather all their important links in one place. Key features include user authentication (Firebase Auth), a private dashboard for link management (CRUD via Firestore), dynamic public pages (/username), a copy-link button, responsive design (Mobile-First), and interactive notifications & modals.',
-    image: '/project/kumpulink.vercel.app_(iPhone 14 Pro Max).png',
+    image: '/project/image.png',
     link: { demo: 'https://kumpulink.vercel.app/' },
-    tech: ['Next.js', 'React.js', 'Tailwind CSS', 'daisyUI', 'Firebase Authentication', 'Firebase Firestore', 'Vercel', 'JavaScript (ES6+)'],
+    tech: ['Javascript', 'Next.js', 'React', 'Tailwind CSS', 'daisyUI', 'Firebase Authentication', 'Firebase Firestore', 'Vercel'],
+  },
+  {
+    title: 'MERN Notes App',
+    description: 'A simple notes management web application built with React and Express.js.',
+    fullDescription:
+      'React Notes is a simple full-stack notes application built as a learning project for understanding ' +
+      'RESTful API concepts using JavaScript. The application supports basic CRUD operations, allowing users ' +
+      'to create, view, edit, and delete notes.\n\n' +
+      'The frontend is built with React and styled using Tailwind CSS and daisyUI, including light and dark mode support. ' +
+      'The backend exposes RESTful API endpoints to handle note data and demonstrates client–server communication ' +
+      'in a typical full-stack JavaScript workflow.',
+    image: '/project/image copy.png',
+    link: { demo: 'https://react-notes-lime.vercel.app/' },
+    tech: ['React', 'Tailwind CSS', 'daisyUI', 'Node.js', 'Express', 'MongoDB', 'REST API'],
   },
   // Tambahkan proyek lainnya di sini
   {
