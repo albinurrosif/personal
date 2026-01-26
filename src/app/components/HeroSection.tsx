@@ -62,7 +62,15 @@ export default function Home() {
 
       {/* Subheading */}
       <p className="text-lg sm:text-xl max-w-xl mb-6 relative z-10 opacity-90">
-        <Typewriter words={['JavaScript Web Developer', 'React · REST API · Tailwind', 'Learning Next.js']} loop={0} cursor cursorStyle="|" typeSpeed={70} deleteSpeed={50} delaySpeed={1500} />
+        <Typewriter
+          words={['Backend-Focused Fullstack Web Developer', 'Building APIs, Databases, and Web Apps', 'REST APIs · SQL/NoSQL · Modern Web Stack']}
+          loop={0}
+          cursor
+          cursorStyle="|"
+          typeSpeed={70}
+          deleteSpeed={50}
+          delaySpeed={1500}
+        />
       </p>
 
       {/* CTA buttons - Floating Bubbles */}
