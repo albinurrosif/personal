@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3, FaReact, FaNodeJs, FaGitAlt, FaLaravel, FaFigma, FaCode} from 'react-icons/fa';
-import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript, SiFirebase, SiPostman } from 'react-icons/si';
+import { FaHtml5, FaCss3, FaReact, FaNodeJs, FaGitAlt, FaLaravel, FaFigma, FaCode, FaPython } from 'react-icons/fa';
+import { SiNextdotjs, SiTailwindcss, SiMysql, SiJavascript, SiFirebase, SiPostman, SiPostgresql, SiPhp, SiMongodb } from 'react-icons/si';
 import { VscVscode } from 'react-icons/vsc';
 import React, { useMemo, useState } from 'react';
 import FloatingBubbles from './FloatingBubbles';
@@ -25,9 +25,18 @@ const skillCategories = [
     items: [
       { name: 'Node.js', icon: FaNodeJs, color: '#339933' },
       { name: 'Express.js', icon: FaNodeJs, color: '#000000' },
+      { name: 'PHP', icon: SiPhp, color: '#777BB4' },
       { name: 'Laravel', icon: FaLaravel, color: '#FF2D20' },
+      { name: 'Python', icon: FaPython, color: '#3776AB' },
+    ],
+  },
+  {
+    category: 'Database', // Kategori Baru
+    items: [
       { name: 'MySQL', icon: SiMysql, color: '#4479A1' },
       { name: 'Firebase', icon: SiFirebase, color: '#FFCA28' },
+      { name: 'PostgreSQL', icon: SiPostgresql, color: '#336791' },
+      { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
     ],
   },
   {
@@ -116,22 +125,12 @@ const CategoryBubble = ({ category }: { category: string }) => (
 );
 
 const CategorySlide = ({ category, skills }: { category: string; skills: Skill[] }) => {
-  // Mapping jumlah skill ke class grid
-  const gridColsMap: { [key: number]: string } = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-2',
-    3: 'grid-cols-3',
-    4: 'grid-cols-2',
-    5: 'grid-cols-3',
-    6: 'grid-cols-3',
-  };
-
-  const gridColsClass = gridColsMap[skills.length] || 'grid-cols-3';
-
+  // Mobile tetap adaptif (2 atau 3) tergantung jumlah, atau mau dipaksa 2 juga bisa
+  // Di sini saya paksa mobile juga 2 kolom biar konsisten
   return (
     <div className="flex-shrink-0 w-full h-full flex flex-col items-center justify-center px-4">
       <CategoryBubble category={category} />
-      <div className={`grid ${gridColsClass} gap-4 sm:gap-5 md:gap-6 max-w-sm justify-items-center`}>
+      <div className="grid grid-cols-2 gap-4 sm:gap-5 md:gap-6 max-w-sm justify-items-center">
         {skills.map((skill, skillIndex) => (
           <SkillBubble key={skill.name} skill={skill} index={skillIndex} />
         ))}
@@ -144,50 +143,32 @@ export default function SkillSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
 
-  // Fungsi untuk langsung ke slide tertentu
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.touches[0].clientX);
-  };
-
+  const goToSlide = (index: number) => setCurrentSlide(index);
+  const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStart === null) return;
-
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStart - touchEnd;
-
     if (Math.abs(diff) > 50) {
-      // Minimum swipe distance
-      if (diff > 0) {
-        // Swipe left - next slide (circular)
-        setCurrentSlide((prev) => (prev + 1) % skillCategories.length);
-      } else {
-        // Swipe right - previous slide (circular)
-        setCurrentSlide((prev) => (prev - 1 + skillCategories.length) % skillCategories.length);
-      }
+      if (diff > 0) setCurrentSlide((prev) => (prev + 1) % skillCategories.length);
+      else setCurrentSlide((prev) => (prev - 1 + skillCategories.length) % skillCategories.length);
     }
-
     setTouchStart(null);
   };
 
   return (
     <section
       id="skills"
-      className=" flex flex-col justify-start items-center px-4 sm:px-6 md:px-8 lg:px-12 relative overflow-hidden skills-section py-44 sm:py-52"
-      style={{
-        color: 'var(--text-color)',
-      }}
+      className="flex flex-col justify-start items-center px-4 sm:px-6 md:px-8 lg:px-12 relative overflow-hidden skills-section py-44 sm:py-52"
+      style={{ color: 'var(--text-color)' }}
     >
-      {/* Title */}
       <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center z-10 section-title">Skills & Technologies</h2>
 
-      {/* Desktop/Tablet Layout - 3 Column Grid */}
+      {/* --- DESKTOP LAYOUT --- */}
+      {/* Kategori disusun 2x2 (md) atau 4 sejajar (2xl) */}
       <motion.div
-        className="hidden md:grid grid-cols-3 gap-6 md:gap-8 lg:gap-10 
-                   max-w-4xl lg:max-w-5xl xl:max-w-7xl w-full 
+        className="hidden md:grid md:grid-cols-2 2xl:grid-cols-4 gap-6 md:gap-8 lg:gap-10 
+                   max-w-4xl lg:max-w-6xl xl:max-w-7xl w-full 
                    z-10 px-4 md:px-6 pt-4 md:pt-6"
         initial="hidden"
         whileInView="visible"
@@ -196,32 +177,33 @@ export default function SkillSection() {
         {skillCategories.map((category) => (
           <motion.div key={category.category} className="flex flex-col items-center">
             <CategoryBubble category={category.category} />
+            
+            {/* --- FIX: STRICT 2 COLUMNS --- */}
+            {/* Semua item di dalam kategori dipaksa jadi 2 kolom */}
             <div className="grid grid-cols-2 gap-3 md:gap-4 lg:gap-5 justify-items-center">
               {category.items.map((skill, skillIndex) => (
                 <SkillBubble key={skill.name} skill={skill} index={skillIndex} />
               ))}
             </div>
+
           </motion.div>
         ))}
       </motion.div>
 
-      {/* Mobile Carousel*/}
+      {/* --- MOBILE CAROUSEL --- */}
       <div className="md:hidden w-full max-w-sm z-10 flex flex-col items-center">
-        {/* Carousel Container */}
         <div className="relative overflow-hidden rounded-2xl w-full pb-4" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <motion.div
-            className="flex pt-4 pb-4
-"
+            className="flex pt-4 pb-4"
             animate={{ x: `-${currentSlide * 100}%` }}
             transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
           >
-            {skillCategories.map((category, index) => (
+            {skillCategories.map((category) => (
               <CategorySlide key={category.category} category={category.category} skills={category.items} />
             ))}
           </motion.div>
         </div>
 
-        {/* Dots Indicator */}
         <div className="flex justify-center w-full mt-6 mb-2">
           <div className="flex gap-2 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-full px-4 py-3 border border-white/20 shadow-lg">
             {skillCategories.map((category, index) => (

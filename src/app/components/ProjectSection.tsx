@@ -31,15 +31,6 @@ const projects: Project[] = [
     tech: ['Laravel', 'Bootstrap', 'MySQL'],
   },
   {
-    title: 'Kumpulink - Link-in-Bio SaaS App',
-    description: 'A full-stack SaaS web application (like Linktree) for creating custom public profile pages',
-    fullDescription:
-      'Built Kumpulink from scratch, a full-stack Software as a Service (SaaS) web application enabling users to create custom public profile pages to gather all their important links in one place. Key features include user authentication (Firebase Auth), a private dashboard for link management (CRUD via Firestore), dynamic public pages (/username), a copy-link button, and responsive design (Mobile-First)',
-    image: '/project/image.png',
-    link: { demo: 'https://kumpulink.vercel.app/' },
-    tech: ['Javascript', 'Next.js', 'React', 'Tailwind CSS', 'daisyUI', 'Firebase Authentication', 'Firebase Firestore', 'Vercel'],
-  },
-  {
     title: 'MERN Notes App',
     description: 'A simple notes management web application built with React and Express.js.',
     fullDescription:
@@ -52,6 +43,30 @@ const projects: Project[] = [
     image: '/project/image copy.png',
     link: { demo: 'https://react-notes-lime.vercel.app/' },
     tech: ['React', 'Tailwind CSS', 'daisyUI', 'Node.js', 'Express', 'MongoDB', 'REST API'],
+  },
+  {
+    title: 'Kumpulink - Link-in-Bio SaaS App',
+    description: 'A full-stack SaaS web application (like Linktree) for creating custom public profile pages',
+    fullDescription:
+      'Built Kumpulink from scratch, a full-stack Software as a Service (SaaS) web application enabling users to create custom public profile pages to gather all their important links in one place. Key features include user authentication (Firebase Auth), a private dashboard for link management (CRUD via Firestore), dynamic public pages (/username), a copy-link button, and responsive design (Mobile-First)',
+    image: '/project/image.png',
+    link: { demo: 'https://kumpulink.vercel.app/' },
+    tech: ['Javascript', 'Next.js', 'React', 'Tailwind CSS', 'daisyUI', 'Firebase Authentication', 'Firebase Firestore', 'Vercel'],
+  },
+
+  {
+    title: 'PreApply — AI Job & Resume Analyzer',
+    description: 'A tool that analyzes resume compatibility with job descriptions using Google Gemini API.',
+    fullDescription:
+      'PreApply is a web application designed to help job seekers tailor their applications efficiently. It automates the process of comparing a PDF resume against a target job description using the Google Gemini 2.5 Flash model.\n\n' +
+      'The application parses the resume text and performs a gap analysis to identify missing skills. It then generates specific improvement suggestions for resume bullet points using the STAR method and drafts a contextual cover letter. ' +
+      'Built with Python and Streamlit, the app utilizes a stateless architecture where files are processed in-memory to ensure user privacy.',
+    image: '/project/PreApply-—-Prepare-Before-You-Apply-·-Streamlit-02-02-2026_09_14_PM.png',
+    link: {
+      demo: 'https://preapply.streamlit.app/',
+      github: 'https://github.com/albinurrosif/AI-Job-Analyzer-Strategy-Generator.git',
+    },
+    tech: ['Python', 'Streamlit', 'Google Gemini API', 'pypdf'],
   },
   // Tambahkan proyek lainnya di sini
   {
@@ -148,7 +163,7 @@ function ProjectModal({ project, isOpen, onClose }: { project: Project | null; i
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                   {/* Kolom Gambar */}
-                  <div className="w-full h-64 md:h-auto relative overflow-hidden rounded-lg">
+                  <div className="w-full h-64 md:h-96 relative overflow-hidden rounded-lg">
                     <Image src={project.image} alt={`Screenshot of ${project.title}`} fill className="object-cover" />
                   </div>
 
@@ -161,7 +176,6 @@ function ProjectModal({ project, isOpen, onClose }: { project: Project | null; i
                     <div className="mt-4 text-sm text-slate-300 space-y-4">{project.fullDescription ? formatDescription(project.fullDescription) : project.description}</div>
 
                     <div className="mt-6">
-                      
                       <div className="mt-2 flex flex-wrap gap-2">
                         {project.tech?.map((tag) => (
                           <span key={tag} className="rounded-full bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
@@ -169,7 +183,7 @@ function ProjectModal({ project, isOpen, onClose }: { project: Project | null; i
                           </span>
                         ))}
                       </div>
-                    </div>  
+                    </div>
 
                     <div className="mt-8 flex flex-col sm:flex-row gap-4">
                       {/* Container untuk tombol */}

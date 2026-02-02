@@ -27,7 +27,7 @@ export default function About() {
         }}
       >
         <p className="text-base sm:text-lg lg:text-xl leading-relaxed">
-          Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Bee</span>, a fresh graduate in Informatics Engineering with a strong interest in backend-focused fullstack web development. I have experience building web
+          Hi, I’m <span className="font-semibold text-[var(--primary-ocean)]">Albi</span>, a fresh graduate in Informatics Engineering with a strong interest in backend-focused fullstack web development. I have experience building web
           applications end-to-end, including designing RESTful APIs, handling database-driven features, and integrating them with user-friendly frontends. I’ve worked with modern web technologies such as
           <span className="font-medium text-[var(--primary-ocean)]"> Express.js, React, Next.js, Tailwind CSS, and SQL/NoSQL databases</span>. I’m eager to learn, adapt, and contribute to real-world development projects.
         </p>
